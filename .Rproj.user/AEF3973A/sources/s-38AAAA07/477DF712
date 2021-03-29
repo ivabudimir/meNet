@@ -3,22 +3,22 @@
     "path": "~/Documents/software/Creating_R_package.R",
     "project_path": null,
     "type": "r_source",
-    "hash": "0",
+    "hash": "886901475",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1617006371808.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
-        "cursorPosition": "10,2",
+        "cursorPosition": "11,0",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1617006382,
+    "lastKnownWriteTime": 1617006927,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1617006414314,
+    "last_content_update": 1617006927924,
     "read_only": false,
     "read_only_alternatives": []
 }

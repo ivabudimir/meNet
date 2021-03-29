@@ -1,0 +1,13 @@
+library(Rcpp)
+library(microbenchmark)
+
+setwd("/home/iva/Documents/Projects/NETWORKS/Alessandra_Claudia/My scripts/GSE87571_DS_CHR21-normalized/")
+sourceCpp("resampling_cor.cpp")
+
+n_rep <- 1000
+vec_1 <- sample()
+
+m <- matrix(c(2,3,4,5,6,7,13,9,12),nrow=3)
+m
+
+cor_prTest(m, 1000, alternative="two_sided_signed")

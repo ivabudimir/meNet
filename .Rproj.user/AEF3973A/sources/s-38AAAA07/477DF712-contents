@@ -8,4 +8,4 @@ RcppArmadillo::RcppArmadillo.package.skeleton(package_name, code_files=list.file
 # add c++ files in src/
 Rcpp::compileAttributes(paste0(folder_where_package_will_be_created,package_name))
 # create R project
-# 
+# create git repo "git init"...
