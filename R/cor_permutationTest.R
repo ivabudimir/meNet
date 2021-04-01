@@ -1,6 +1,6 @@
 #@pars data has variables in columns and samples in rows
 #'@export
-list <- function(data, n_repetitions=100, alternative="two_sided", zero_precisionC=0.000001){
+cor_permutationTest <- function(data, n_repetitions=100, alternative="two_sided", zero_precisionC=0.000001){
   if(!is.character(alternative)){
     stop('"alternative" must have one of the values "less", "greater", "two_sided" or "two_sided_signed".')
   }

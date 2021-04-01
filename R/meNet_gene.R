@@ -9,10 +9,10 @@
 #     "Validation of a DNA methylation microarray for 450,000 CpG sites in the human genome" by J. Sandoval et al.
 #'@export
 meNet_gene <- function(cg_list=NULL, gene_list=NULL, weighted=TRUE, link_method="twoLyr_clust",
-                       cor_matrix=NULL, data=NULL, cor_normalization_fun=.max_normalization, dist_normalization_fun=.neg_max_normalization,
+                       cor_matrix=NULL, data=NULL, cor_normalization_fun=max_normalization, dist_normalization_fun=neg_max_normalization,
                        cor_threshold=0.2, neg_cor_threshold=NULL, cor_stDev=NULL, cor_alpha=NULL, n_repetitions=1000, alternative="two_sided",
                        infomap_call="infomap", folder="./meNet/", file_basename="meNet_CGI_infomap", relaxation_rate=0.15,
-                       cgGene_meta=cgGene_anno450k, cgGene_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", gene_id="UCSC_RefGene_Name", gene_region="UCSC_RefGene_Group"),
+                       cgGene_meta=data("CpG_genes", package="meNet"), cgGene_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", gene_id="UCSC_RefGene_Name", gene_region="UCSC_RefGene_Group"),
                        gene_regions=c("Promoter", "Body", "3'UTR"), expand_cg_list=FALSE, normalization_fun=NULL, save_all_files=FALSE, delete_files=FALSE){
   #
   if(is.null(cg_list)&is.null(gene_list)){
@@ -61,7 +61,7 @@ meNet_gene <- function(cg_list=NULL, gene_list=NULL, weighted=TRUE, link_method=
     }
     gene_to_add <- unique(cgGene_meta[(cgGene_meta[,cgGene_meta_cols$cg_id]%in%cg_list)&(cgGene_meta[,cgGene_meta_cols$gene_region]%in%gene_regions),cgGene_meta_cols$gene_id])
     if(!is.null(gene_list)){
-      gene_list <- unique(intersect(gene_list, cgGene_meta[,cgGene_meta_cols$gene_id]))
+      gene_list <- intersect(gene_list, cgGene_meta[,cgGene_meta_cols$gene_id])
     }else{
       gene_list <- c()
     }

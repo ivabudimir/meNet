@@ -4,10 +4,10 @@
 # much faster if instead of the whole corM you just give the part corresponding to the island (or just smaller)
 #'@export
 singleCGI_meNet <- function(cg_island, cor_matrix=NULL, data=NULL, link_method="twoLyr_clust", weighted=TRUE,
-                            cor_normalization_fun=.max_normalization, dist_normalization_fun=.neg_max_normalization,
+                            cor_normalization_fun=max_normalization, dist_normalization_fun=neg_max_normalization,
                             cor_threshold=0.2, neg_cor_threshold=NULL, cor_stDev=NULL, cor_alpha=NULL, n_repetitions=1000, alternative="two_sided",
                             infomap_call="infomap", folder="./meNet/", file_basename="meNet_CGI_infomap", relaxation_rate=0.15,
-                            cg_meta=cg_anno450k, cg_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", island_name="UCSC_CpG_Islands_Name", island_region="Relation_to_UCSC_CpG_Island"),
+                            cg_meta=data("CpG_anno450K", package="meNet"), cg_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", island_name="UCSC_CpG_Islands_Name", island_region="Relation_to_UCSC_CpG_Island"),
                             include_regions=c(), check_matrices=TRUE, delete_files=FALSE){
   #
   if(link_method=="twoLyr_clust"){
@@ -34,7 +34,7 @@ singleCGI_meNet <- function(cg_island, cor_matrix=NULL, data=NULL, link_method="
     }
   }
   # cg_list
-  cg_list <- CGinIsland(cg_island, cg_meta, cg_meta_cols, include_regions)
+  cg_list <- CpG_in_CGI(cg_island, cg_meta, cg_meta_cols, include_regions)
   if(length(cg_list)==0){
     stop(paste0('No CpGs found in CpG island "',cg_island ,'".'))
   }
@@ -103,10 +103,10 @@ singleCGI_meNet <- function(cg_island, cor_matrix=NULL, data=NULL, link_method="
     edgeDist_df$Dist <- distM[upper.tri(distM, diag=FALSE)]
     graphCGI_dist <- graph_from_data_frame(d=edgeDist_df, vertices=node_df, directed=FALSE)
     #
-    communities_df <- meMultiplex_infomapCommunities(graphCGI_cor, graphCGI_dist, physical_nodes=FALSE, layer=1, folder=folder, file_basename=file_basename,
-                                                     relaxation_rate=relaxation_rate, delete_files=delete_files, infomap_call=infomap_call,
-                                                     cor_weighted=TRUE, supp_weighted=TRUE, cor_normalization_fun=.max_normalization, supp_normalization_fun=.neg_max_normalization,
-                                                     inter_cor_supp=NULL, inter_supp_cor=NULL, infomap_seed=NULL)
+    communities_df <- meMultiplex_communities(graphCGI_cor, graphCGI_dist, physical_nodes=FALSE, layer=1, folder=folder, file_basename=file_basename,
+                                              relaxation_rate=relaxation_rate, delete_files=delete_files, infomap_call=infomap_call,
+                                              cor_weighted=TRUE, supp_weighted=TRUE, cor_normalization_fun=.max_normalization, supp_normalization_fun=.neg_max_normalization,
+                                              inter_cor_supp=NULL, inter_supp_cor=NULL, infomap_seed=NULL)
     cg_list_temp <- communities_df[,1]
     cg_membership <- communities_df[,2]
     communities <- as.numeric(names(table(cg_membership))[as.numeric(table(cg_membership))>1])

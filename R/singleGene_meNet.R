@@ -1,10 +1,10 @@
 # return also attribute "Region"
 #'@export
 singleGene_meNet <- function(gene_name, cor_matrix=NULL, data=NULL, link_method="twoLyr_clust", weighted=TRUE,
-                             cor_normalization_fun=.max_normalization, dist_normalization_fun=.neg_max_normalization,
+                             cor_normalization_fun=max_normalization, dist_normalization_fun=neg_max_normalization,
                              cor_threshold=0.2, neg_cor_threshold=NULL, cor_stDev=NULL, cor_alpha=NULL, n_repetitions=1000, alternative="two_sided",
                              infomap_call="infomap", folder="./meNet/", file_basename="meNet_gene_infomap", relaxation_rate=0.15,
-                             cgGene_meta=cgGene_anno450k, cgGene_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", gene_id="UCSC_RefGene_Name", gene_region="UCSC_RefGene_Group"),
+                             cgGene_meta=data("CpG_genes", package="meNet"), cgGene_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", gene_id="UCSC_RefGene_Name", gene_region="UCSC_RefGene_Group"),
                              gene_regions=c("Promoter", "Body", "3'UTR"), check_matrices=TRUE, delete_files=FALSE){
   #
   if(link_method%in%c("twoLyr_clust", "twoLyr_clust_wRegion")){
@@ -146,10 +146,10 @@ singleGene_meNet <- function(gene_name, cor_matrix=NULL, data=NULL, link_method=
       # not sure what happens it there are no edges (calls infomap)
     }
     graphGene_dist <- graph_from_data_frame(d=edgeDist_df, vertices=node_df, directed=FALSE)
-    communities_df <- meMultiplex_infomapCommunities(graphGene_cor, graphGene_dist, physical_nodes=FALSE, layer=1, folder=folder, file_basename=file_basename,
-                                                     relaxation_rate=relaxation_rate, delete_files=delete_files, infomap_call=infomap_call,
-                                                     cor_weighted=TRUE, supp_weighted=TRUE, cor_normalization_fun=.max_normalization, supp_normalization_fun=.neg_max_normalization,
-                                                     inter_cor_supp=NULL, inter_supp_cor=NULL, infomap_seed=NULL)
+    communities_df <- meMultiplex_communities(graphGene_cor, graphGene_dist, physical_nodes=FALSE, layer=1, folder=folder, file_basename=file_basename,
+                                              relaxation_rate=relaxation_rate, delete_files=delete_files, infomap_call=infomap_call,
+                                              cor_weighted=TRUE, supp_weighted=TRUE, cor_normalization_fun=.max_normalization, supp_normalization_fun=.neg_max_normalization,
+                                              inter_cor_supp=NULL, inter_supp_cor=NULL, infomap_seed=NULL)
     #
     cg_list_temp <- communities_df[,1]
     cg_membership <- communities_df[,2]
@@ -172,5 +172,3 @@ singleGene_meNet <- function(gene_name, cor_matrix=NULL, data=NULL, link_method=
   graph <- set_vertex_attr(graph, 'Region', index=V(graph), sapply(V(graph)$name, function(x) .transform_gene_region(cgGene_meta[cgGene_meta[,cgGene_meta_cols$cg_id]==x,cgGene_meta_cols$gene_region]), USE.NAMES=FALSE))
   return(graph)
 }
-
-

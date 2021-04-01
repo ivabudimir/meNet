@@ -8,10 +8,10 @@
 # weights = "dist" or unweighted
 #'@export
 meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="twoLyr_clust",
-                      cor_matrix=NULL, data=NULL, cor_normalization_fun=.max_normalization, dist_normalization_fun=.neg_max_normalization,
+                      cor_matrix=NULL, data=NULL, cor_normalization_fun=max_normalization, dist_normalization_fun=neg_max_normalization,
                       cor_threshold=0.2, neg_cor_threshold=NULL, cor_stDev=NULL, cor_alpha=NULL, n_repetitions=1000, alternative="two_sided",
                       infomap_call="infomap", folder="./meNet/", file_basename="meNet_CGI_infomap", relaxation_rate=0.15,
-                      cg_meta=cg_anno450k, cg_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", island_name="UCSC_CpG_Islands_Name", island_region="Relation_to_UCSC_CpG_Island"),
+                      cg_meta=data("CpG_anno450K", package="meNet"), cg_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", island_name="UCSC_CpG_Islands_Name", island_region="Relation_to_UCSC_CpG_Island"),
                       include_regions=character(0), expand_cg_list=FALSE, normalization_fun=NULL, save_all_files=FALSE, delete_files=FALSE){
   #
   if(is.null(cg_list)&is.null(cgi_list)){
@@ -75,7 +75,7 @@ meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="t
   }
   # loop over all islands: add CGs
   for(i in 1:length(cgi_list)){
-    cg_island_i <- CGinIsland(cgi_list[i], cg_meta, cg_meta_cols, include_regions)
+    cg_island_i <- CpG_in_CGI(cgi_list[i], cg_meta, cg_meta_cols, include_regions)
     if(!is.null(cor_matrix)){
       cg_island_i <- intersect(cg_island_i, colnames(cor_matrix))
       corM_i <- cor_matrix[cg_island_i,cg_island_i]
@@ -112,7 +112,7 @@ meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="t
   # we separate them so that we can control the addition of CpGs to the list of nodes
   cgi_to_add <- setdiff(cgi_to_add, cgi_list)
   for(i in 1:length(cgi_to_add)){
-    cg_island_i <- CGinIsland(cgi_to_add[i], cg_meta, cg_meta_cols, include_regions)
+    cg_island_i <- CpG_in_CGI(cgi_to_add[i], cg_meta, cg_meta_cols, include_regions)
     if(!is.null(cor_matrix)){
       cg_island_i <- intersect(cg_island_i, colnames(cor_matrix))
       corM_i <- cor_matrix[cg_island_i,cg_island_i]
@@ -170,3 +170,45 @@ meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="t
   #
   return(graph)
 }
+
+
+#######################################################################
+# CpG GENOMICS LAYER
+#######################################################################
+.transform_one_gene_region <- function(gene_region){
+  if(gene_region %in% c("TSS200", "TSS1500", "5'UTR", "1stExon", "Promoter")){
+    return("Promoter")
+  }else if(gene_region=="Body"){
+    return(gene_region)
+  }else if(gene_region=="3'UTR"){
+    return(gene_region)
+  }else{
+    return("")
+  }
+}
+
+.transform_gene_region <- function(gene_region){
+  if(length(gene_region)>1){
+    gene_region <- sapply(gene_region, .transform_one_gene_region)
+    gene_region <- unique(gene_region)
+    if(length(gene_region)==1){
+      gene_region <- gene_region[1]
+    }else{
+      return(paste(gene_region,collapse=","))
+    }
+  }
+  return(.transform_one_gene_region(gene_region))
+}
+
+.clrs_for_region <- function(gene_region){
+  if(gene_region=="Promoter"){
+    return("cadetblue3")
+  }else if(gene_region=="Body"){
+    return("gold")
+  }else if(gene_region=="3'UTR"){
+    return("yellowgreen")
+  }else{
+    return("gray50")
+  }
+}
+

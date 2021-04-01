@@ -1,25 +1,7 @@
-#' Match chromosome names
-#
-.matchChr <- function(chr_v1, chr_v2){
-  # recognize different version of name, e.g. 2, chr2, CHR2, Chr2
-  if(chr_v1==chr_v2){
-    return(TRUE)
-  }
-  chr_v1 <- tolower(chr_v1)
-  chr_v2 <- tolower(chr_v2)
-  if(nchar(chr_v1)<4){
-    chr_v1 <- paste0("chr", chr_v1)
-  }
-  if(nchar(chr_v2)<4){
-    chr_v2 <- paste0("chr", chr_v2)
-  }
-  return(chr_v1==chr_v2)
-}
-
-
-
-# must be called with the variables
-# checks if cor_matrix and data are correctly specified. In case of data!=null, cor_matrix is ignored
+# function which check validity of input
+################################################################################
+# checks if cor_matrix and data are correctly specified. 
+# In case of data!=null, cor_matrix is ignored
 .check_corM_dataDF <- function(cor_matrix, data){
   if(is.null(cor_matrix)&is.null(data)){
     stop(paste0('You must specify either "',deparse(substitute(cor_matrix)),'" or "',deparse(substitute(data)),'".'))
@@ -72,19 +54,7 @@
 }
 
 
-.words_listing <- function(list_of_words, quote='"'){
-  n_words <- length(list_of_words)
-  if(n_words==0){
-    return("")
-  }else if(n_words==1){
-    return(paste0(quote,list_of_words[1],quote))
-  }else{
-    list_of_words <- paste0(quote,list_of_words,quote)
-    return(paste(paste(list_of_words[1:(n_words-1)],collapse=", "),list_of_words[n_words],sep=" and "))
-  }
-}
-
-# check if cg_meta is correctly specified
+# Check if cg_meta is correctly specified
 .check_cgMeta_wCols <- function(cg_meta, cg_meta_cols, necessary_cols, index_column){
   if(length(intersect(names(cg_meta_cols), necessary_cols))<length(necessary_cols)){
     message <- .words_listing(necessary_cols)
@@ -115,8 +85,12 @@
   }
   return(cg_meta) #added rownames if index_column is given
 }
+################################################################################
 
 
+# functions which take gene region and check wheather it is "Promoter", "Body"
+# or "3'UTR" region
+################################################################################
 .transform_one_gene_region <- function(gene_region){
   if(gene_region %in% c("TSS200", "TSS1500", "5'UTR", "1stExon", "Promoter")){
     return("Promoter")
@@ -141,45 +115,12 @@
   }
   return(.transform_one_gene_region(gene_region))
 }
-
-.clrs_for_region <- function(gene_region){
-  if(gene_region=="Promoter"){
-    return("cadetblue3")
-  }else if(gene_region=="Body"){
-    return("gold")
-  }else if(gene_region=="3'UTR"){
-    return("yellowgreen")
-  }else{
-    return("gray50")
-  }
-}
+################################################################################
 
 
-.max_normalization  <- function(x=numeric(0)){
-  if(!is.numeric(x)){
-    stop('"x" must be numeric.')
-  }
-  if(length(x)==0){
-    stop('Empty vector.')
-  }
-  return(x/max(abs(x)))
-}
-
-# composition of this function is qual to .max_normalization
-.neg_max_normalization  <- function(x=numeric(0), add_part=0.1){
-  if(!is.numeric(x)){
-    stop('"x" must be numeric.')
-  }
-  if(length(x)==0){
-    stop('Empty vector.')
-  }
-  if(any(x<0)){
-    stop('No negative values allowed')
-  }
-  return((max(x)-x+min(x))/max(x))
-}
-
-#' Intersects edge lists of two graphs
+# Additional functions
+################################################################################
+# intersects edges from two different igraph objects
 .intersect_edges <- function(g1, g2, edgeL1=E(g1), edgeL2=E(g2)){
   if(length(edgeL1)==0){
     return(E(g2)[0])
@@ -190,19 +131,7 @@
   return(E(g2)[edge_list2])
 }
 
-
-.coord_sort <- function(cg_list, cg_meta=cg_anno450k, cg_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", cg_chr="CHR")){
-  cg_meta <- .check_cgMeta_wCols(cg_meta, cg_meta_cols, necessary_cols=c("cg_id", "cg_coord", "cg_chr"), index_column="cg_id")
-  if(!all(cg_list %in% cg_meta[,cg_meta_cols$cg_id])){
-    stop('Elements of "cg_list" not found in "cg_meta$cg_id".')
-  }
-  cg_meta <- cg_meta[cg_meta[,cg_meta_cols$cg_id]%in%cg_list,]
-  cg_meta <- cg_meta[order(cg_meta[,cg_meta_cols$cg_chr], cg_meta[,cg_meta_cols$cg_coord]),]
-  permutation <- sapply(cg_list, function(x) which(cg_meta[,cg_meta_cols$cg_id]==x), USE.NAMES=FALSE)
-  return(permutation) #used by igraph::permute
-}
-
-
+# for a list of CpGs returns a data frame with all pairwise combinations of them
 .get_all_pairwiseCG <- function(cg_list, col1_name="Node1", col2_name="Node2"){
   cg_list <- unique(cg_list)
   df_temp <- data.frame(matrix(nrow=length(cg_list)*(length(cg_list)-1)/2,ncol=2))
@@ -215,3 +144,32 @@
   return(df_temp)
 }
 
+# Match chromosome names for different version of a name: e.g. 2, chr2, CHR2, Chr2
+.matchChr <- function(chr_v1, chr_v2){
+  if(chr_v1==chr_v2){
+    return(TRUE)
+  }
+  chr_v1 <- tolower(chr_v1)
+  chr_v2 <- tolower(chr_v2)
+  if(nchar(chr_v1)<4){
+    chr_v1 <- paste0("chr", chr_v1)
+  }
+  if(nchar(chr_v2)<4){
+    chr_v2 <- paste0("chr", chr_v2)
+  }
+  return(chr_v1==chr_v2)
+}
+
+# for a list of words, returns a single string of type "word_1, word_2 and word_3"
+# used by ".check_cgMeta_wCols" function
+.words_listing <- function(list_of_words, quote='"'){
+  n_words <- length(list_of_words)
+  if(n_words==0){
+    return("")
+  }else if(n_words==1){
+    return(paste0(quote,list_of_words[1],quote))
+  }else{
+    list_of_words <- paste0(quote,list_of_words,quote)
+    return(paste(paste(list_of_words[1:(n_words-1)],collapse=", "),list_of_words[n_words],sep=" and "))
+  }
+}

@@ -4,9 +4,9 @@
 # default parameters set for cor&dist weighted combination
 #'@export
 plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NULL, first_weighted=TRUE, second_weighted=TRUE,
-                           first_normalization_fun=.max_normalization, second_normalization_fun=.neg_max_normalization, include_negative=TRUE,
-                           include_module=FALSE, node_sort_fun=.coord_sort, layout_layer="first", layout_fun=igraph::layout_with_fr, layout_weighted=FALSE, layout_weight_transformation_fun=.max_normalization,
-                           main_title=NULL, first_title="Correlation", second_title="CpG island", pos_link_col="grey70", neg_link_col="red", vertex_size=2, plot_layout_graph=FALSE){
+                           first_normalization_fun=max_normalization, second_normalization_fun=neg_max_normalization, include_negative=TRUE,
+                           include_module=FALSE, node_sort_fun=coord_sort, layout_layer="first", layout_fun=igraph::layout_with_fr, layout_weighted=FALSE, layout_weight_transformation_fun=.max_normalization,
+                           main_title=NULL, first_title="Correlation", second_title="CpG island", pos_link_col="grey70", neg_link_col="blue", vertex_size=2, plot_layout_graph=FALSE){
   if(!(layout_layer) %in% c("first", "second", "module", "aggregated", "coord")){
     stop('"layout_layer" must have one of the values: "first", "second", "module", "aggregated" or "coord".')
   }
