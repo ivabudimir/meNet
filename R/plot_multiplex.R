@@ -11,7 +11,7 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
                            layout_weight_transformation_fun=.max_normalization,
                            main_title=NULL, first_title="Correlation", second_title="CpG island",
                            node_col="black", node_size=2, pos_link_col="grey70", neg_link_col="blue",
-                           plot_module=FALSE, module_border_col="black", plot_layout_graph=FALSE){
+                           plot_module=FALSE, module_border_col="black", module_border_expand=10, plot_layout_graph=FALSE){
   if(!(layout_layer) %in% c("first", "second", "module", "aggregated", "coord")){
     stop('"layout_layer" must have one of the values: "first", "second", "module", "aggregated" or "coord".')
   }
@@ -44,7 +44,7 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
       stop('"module_df" must have two columns, the first with node IDs and the second with corresponding module membership.')
     }
     if(length(union(intersect(V(first_layer)$name, module_df[,1]),intersect(V(second_layer)$name, module_df[,1])))==0){
-      stop('The first column of "module_df" has no shared elements with the nodes. Provide different data frame or adjust other function parameters so that "module_df" is not required.')
+      stop('The first column of mark.expand=module_border_expand,"module_df" has no shared elements with the nodes. Provide different data frame or adjust other function parameters so that "module_df" is not required.')
     }
   }
   # check node_col
@@ -52,8 +52,11 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
     if(is.null(node_col)){
       warning('"node_col" misspecified, it is set to "black".')
       node_col <- "black"
-    }else if(!inherits(node_df, "data.frame")){
+    }else if(!inherits(node_col, "data.frame")){
       warning('If node color is not the same for all nodes, "node_col" must be a data frame with node IDs in the first column and corresponding color in the second column. Node color is set to "black".')
+      node_col <- "black"
+    }else if(ncol(node_col)!=2){
+      warning('If node color is not the same for all nodes, "node_col" must have two columns: the first with node IDs and the second with corresponding color. Node color is set to "black".')
       node_col <- "black"
     }
   }
@@ -115,12 +118,14 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
       }, error=function(e){
         stop('"node_col" data frame is misspecified. The first column should contain node IDs and the second column corresponding color.')
       })
-      if(sum(duplicated(node_col_df[,1]))>0){
-        warning('"node_col" has duplicated node IDs. Only the first entry is used to set color.')
-        node_col_df <- node_col_df[!duplicated(node_col_df[,1]),]
-      }
-      rownames(node_col_df) <- node_col_df[,1]
+    }else{
+      node_col_df <- node_col
     }
+    if(sum(duplicated(node_col_df[,1]))>0){
+      warning('"node_col" has duplicated node IDs. Only the first entry is used to set color.')
+      node_col_df <- node_col_df[!duplicated(node_col_df[,1]),]
+    }
+    rownames(node_col_df) <- node_col_df[,1]
   }else{
     node_col_df <- data.frame(matrix(nrow=length(V(first_layer)), ncol=2))
     node_col_df[,1] <- V(first_layer)$name
@@ -220,21 +225,23 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
     }
     module_df[,2] <- as.numeric(factor(module_df[,2])) # so that module names are integers starting from 1
     no_module_nodes <- setdiff(V(first_layer)$name, module_df[,1])
-    module_df_add <- data.frame(matrix(nrow=length(no_module_nodes), ncol=2))
-    colnames(module_df_add) <- colnames(module_df)
-    module_df_add[,1] <- no_module_nodes
-    module_df_add[,2] <- NA
-    module_df <- rbind(module_df, module_df_add)
+    if(length(no_module_nodes)>0){
+      module_df_add <- data.frame(matrix(nrow=length(no_module_nodes), ncol=2))
+      colnames(module_df_add) <- colnames(module_df)
+      module_df_add[,1] <- no_module_nodes
+      module_df_add[,2] <- NA
+      module_df <- rbind(module_df, module_df_add)
+    }
     rownames(module_df) <- module_df[,1]
     # create igraph communities objects
     first_communities <- make_clusters(first_layer, membership=module_df[V(first_layer)$name,2])
     second_communities <- make_clusters(second_layer, membership=module_df[V(second_layer)$name,2])
     # plot
-    plot(first_communities, first_layer, vertex.label=NA, layout=l, vertex.size=node_size, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(first_layer)$name,2], edge.color=c(pos_link_col, neg_link_col)[(edge_attr(first_layer, first_attr)<0)+1], main=first_title)
-    plot(second_communities, second_layer, vertex.label=NA, layout=l, vertex.size=node_size, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(second_layer)$name,2], edge.color=pos_link_col, main=second_title)
+    plot(first_communities, first_layer, vertex.label=NA, layout=l, vertex.size=node_size, mark.expand=module_border_expand, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(first_layer)$name,2], edge.color=c(pos_link_col, neg_link_col)[(edge_attr(first_layer, first_attr)<0)+1], main=first_title)
+    plot(second_communities, second_layer, vertex.label=NA, layout=l, vertex.size=node_size, mark.expand=module_border_expand, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(second_layer)$name,2], edge.color=pos_link_col, main=second_title)
     if(plot_layout_graph){
       layout_communities <- make_clusters(layout_layer, membership=module_df[V(layout_layer)$name,2])
-      plot(layout_communities, layout_graph, vertex.label=NA, layout=l, vertex.size=node_size, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(layout_graph)$name,2], edge.color=pos_link_col, main="Layout")
+      plot(layout_communities, layout_graph, vertex.label=NA, layout=l, vertex.size=node_size, mark.expand=module_border_expand, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(layout_graph)$name,2], edge.color=pos_link_col, main="Layout")
     }
   }else{
     plot(first_layer, vertex.label=NA, layout=l, vertex.size=node_size, vertex.color=node_col_df[V(first_layer)$name,2], edge.color=c(pos_link_col, neg_link_col)[(edge_attr(first_layer, first_attr)<0)+1], main=first_title)
