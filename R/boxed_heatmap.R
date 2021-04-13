@@ -1,6 +1,23 @@
-# it doesn't call "layout" function so it can be used in the layout
+#' Draws a heat map without the use of 'layout'
+#'
+#'@description Function which draws heat map with box around it and without any legend.
+#'The function calls 'image' and because of its simplicity it doesn't use 'layout' so can be used
+#'inside the 'layout' function together with other plots.
+#'
+#'@params cor_matrix Correlation matrix.
+#'@params clrs_list A list of colors passed to 'colorRampPalette'. If three colors are given, first
+#'corresponds to negative correlation, second to zero correlation and third to positive correlation.
+#'Deafults to 'c("blue", "white", "red")'.
+#'@params title Title for the heatmap. Passed to the 'title' function.
+#'@params color_title Color of the title. Passed to the 'title' function.
+#'@params cex_title Size of the title. Passed to the 'title' function.
+#'@params line_title Line at which title is added to the plot. Passed to the 'title' function.
+#'@params margin_add Additional size for the margins. 'c(0.5,0.5,0.5,0.5)+margin_add' 
+#'is passed as the 'mar' parameter to 'par'. Defaults to 1.5.
+#'@params box_width Width of the box around the heatmap. Passed to the 'box' function.
+#'
 #'@export
-boxed_heatmap <- function(cor_matrix, title="", color_title="black", cex_title=1.3, margin_add=1.5, box_width=1, line_title=0.5){
+boxed_heatmap <- function(cor_matrix, clrs_list=c("blue", "white", "red"), title="", color_title="black", cex_title=1.3, line_title=0.5, margin_add=1.5, box_width=1){
   my_palette <- colorRampPalette(c("blue", "white", "red"))(n = 200) #to have exact white
   cor_matrix <- t(apply(cor_matrix, 2, rev)) #rotate for 90 degrees in clockwise direction because image plots starting form bottom left corner
   par(mar=c(0.5,0.5,0.5,0.5)+margin_add)
