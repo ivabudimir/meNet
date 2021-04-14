@@ -5,6 +5,7 @@
 # node_col can also be a dataframe with colors for all vertices (similar to module_df)
 # include module (deleted it, it is deprecated?)
 # for missing nodes in node_col data frame , we set their color to black
+#'@export
 plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NULL, first_weighted=TRUE, second_weighted=TRUE,
                            first_normalization_fun=.max_normalization, second_normalization_fun=.neg_max_normalization, include_negative=TRUE,
                            node_sort_fun=.coord_sort, layout_layer="first", layout_fun=igraph::layout_with_fr, layout_weighted=FALSE,
@@ -160,8 +161,8 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
       cg_list_i <- unique(module_df[module_df[,2]==modules[i],1])
       edge_df <- rbind(edge_df, .get_all_pairwiseCG(cg_list_i, "Node1", "Node2"))
     }
-    edge_df <- edge_df[!duplicated(edge_df),]
-    edge_df <- plyr::ddply(edge_df,.(Node1,Node2),nrow)
+    edge_df[,1:2] <- t(apply(edge_df[,1:2], 1, sort)) #in case nodes are in different order
+    edge_df <- plyr::ddply(edge_df,.(Node1,Node2),nrow) # we count in how many modules is the pair present
     colnames(edge_df) <- c("Node1", "Node2", "weight")
     node_df <- data.frame(IlmnID=V(first_layer)$name)
     layout_graph <- graph_from_data_frame(d=edge_df, vertices=node_df, directed=FALSE)
@@ -175,6 +176,7 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
     edge_df2 <- cbind(edge_df2,edge_attr(second_layer,second_attr))
     colnames(edge_df2) <- c("Node1", "Node2", "weight")
     edge_df <- rbind(edge_df1, edge_df2)
+    edge_df[,1:2] <- t(apply(edge_df[,1:2], 1, sort)) # to put nodes in the same order
     edge_df_intersect <- merge(edge_df[duplicated(edge_df[,1:2]),],edge_df[duplicated(edge_df[,1:2], fromLast=TRUE),], by=c("Node1", "Node2"))
     edge_df_intersect$weight <- edge_df_intersect[,3] + edge_df_intersect[,4]
     edge_df_intersect <- edge_df_intersect[,-c(3,4)]
@@ -234,13 +236,13 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
     }
     rownames(module_df) <- module_df[,1]
     # create igraph communities objects
-    first_communities <- make_clusters(first_layer, membership=module_df[V(first_layer)$name,2])
-    second_communities <- make_clusters(second_layer, membership=module_df[V(second_layer)$name,2])
+    first_communities <- make_clusters(first_layer, membership=module_df[V(first_layer)$name,2], modularity=FALSE)
+    second_communities <- make_clusters(second_layer, membership=module_df[V(second_layer)$name,2], modularity=FALSE)
     # plot
     plot(first_communities, first_layer, vertex.label=NA, layout=l, vertex.size=node_size, mark.expand=module_border_expand, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(first_layer)$name,2], edge.color=c(pos_link_col, neg_link_col)[(edge_attr(first_layer, first_attr)<0)+1], main=first_title)
     plot(second_communities, second_layer, vertex.label=NA, layout=l, vertex.size=node_size, mark.expand=module_border_expand, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(second_layer)$name,2], edge.color=pos_link_col, main=second_title)
     if(plot_layout_graph){
-      layout_communities <- make_clusters(layout_layer, membership=module_df[V(layout_layer)$name,2])
+      layout_communities <- make_clusters(layout_layer, membership=module_df[V(layout_layer)$name,2], modularity=FALSE)
       plot(layout_communities, layout_graph, vertex.label=NA, layout=l, vertex.size=node_size, mark.expand=module_border_expand, mark.border=module_border_col, mark.col=NA, col=node_col_df[V(layout_graph)$name,2], edge.color=pos_link_col, main="Layout")
     }
   }else{
