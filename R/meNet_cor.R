@@ -1,5 +1,22 @@
-#' Build a CpG network where edges are based on correlation
-#'
+#' Builds a CpG network where edges are based on correlation
+#' 
+#' @description Different options are available to determine which correlations 
+#' are kept in the network, such as a constant threshold for correlation, 
+#' permutation test p-value or standard deviation of bootstrapping.
+#' 
+#' @param cor_layer
+#' 
+#' @return 
+#' 
+#' @details 
+#' 
+#' @import igraph
+#' 
+#' @export
+
+
+
+
 #' @param cor_matrix Only upper triangle will be used.
 #' @param cg_ids List of CpGs for which we reconstruct the network. If row and column names of "cor_matrix" are given, "cg_ids" can be omitted or it
 #' can define a subset of all CpGs in the "cor_matrix". Otherwise, "cg_ids" contains the names of CpGs from the "cor_matrix".

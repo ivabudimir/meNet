@@ -1,14 +1,25 @@
 Package: meNet
 Type: Package
-Title: What the package does (short line)
+Title: Correlation-based network analysis of methylation data
 Version: 1.0
-Date: 2021-03-29
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
-Imports: Rcpp (>= 1.0.6)
+Author: c(person("Iva", "Budimir", email = "iva.budimir.os@gmail.com", role = c("aut", "cre")),
+           person("IMforFUTURE", role="fnd"))
+Description: ...
+
+
+Depends: R (>= 2.10)
+Imports: Rcpp (>= 1.0.6), 
+         graphics,
+         grDevices,
+         igraph,
+         multinet,
+         plyr,
+         dplyr,
+         
+Suggests: 
 LinkingTo: Rcpp, RcppArmadillo
+VignetteBuilder: knitr, rmarkdown
+License: GPL-3
 LazyData: true
-Depends: 
-    R (>= 2.10)
+Encoding: UTF-8
+

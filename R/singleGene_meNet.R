@@ -1,3 +1,21 @@
+#' 
+#' @description Builds a CpG network for a single gene with (optional) weights 
+#' representing chromosomal distances between CpGs. 
+#' Edge significance is determined similarly as in singleCGI_meNet with an 
+#' additional clustering method “twoLyr_clust_wRegion” which additionally 
+#' incorporates the gene-region-information (e.g. “Promoter”, “Body”) 
+#' in the distance layer prior to the Infomap multiplex clustering. 
+#' 
+#' @param cor_layer
+#' 
+#' @return 
+#' 
+#' @details 
+#' 
+#' @import igraph
+#' 
+#' @export
+
 # return also attribute "Region"
 #'@export
 singleGene_meNet <- function(gene_name, cor_matrix=NULL, data=NULL, link_method="twoLyr_clust", weighted=TRUE,

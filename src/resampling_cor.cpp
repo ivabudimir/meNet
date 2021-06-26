@@ -34,7 +34,7 @@ double corC(NumericVector x, NumericVector y) {
   }
   double cor = (n*xy_sum-x_sum*y_sum)/(sqrt(n*x2_sum-pow(x_sum,2))*sqrt(n*y2_sum-pow(y_sum,2)));
   return (cor);
-  }
+}
 
 // [[Rcpp::export]]
 NumericMatrix cor_meanSd(NumericMatrix data, int size, bool replace, int n_repetitions, double zero_precision=0.000001){

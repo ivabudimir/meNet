@@ -1,5 +1,20 @@
 #' Builds a CpG network where edges are based on CpG island affiliation
 #'
+#' @description For every present CGI, function "singleCGI_meNet" is called and 
+#' the resulting network is a union of the single-CGI networks. (Optional) 
+#' weights are chromosomal distances.
+#' 
+#' @param cor_layer
+#' 
+#' @return 
+#' 
+#' @details 
+#' 
+#' @import igraph
+#' 
+#' @export
+
+
 # @details if both cg_list and cgi_list are given, we merge both lists;
 # we leave also isolated CpGs
 # if expand_cg_list=TRUE, we add all CpGs from islands

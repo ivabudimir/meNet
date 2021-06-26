@@ -1,5 +1,22 @@
 # unite creation of multiplex for infomap and and reading communities from file  (need installed infomap)
-#'@export
+#' 
+#' @description Finds communities of nodes (CpGs) calling the "meMultiplex"
+#' function, performing "Infomap" clustering on the resulting file and reading 
+#' the community structure from the "Infomap" output. It directly calls the 
+#' "Infomap" from the command line so the "Infomap" must be installed for this 
+#' function to work. 
+#' Alternativelly, instead of using this function, online "Infomap" application 
+#' can be used on the meMultinex output file. 
+#' 
+#' @param cor_layer
+#' 
+#' @return 
+#' 
+#' @details 
+#' 
+#' @import igraph
+#' 
+#' @export
 meMultiplex_communities <- function(cor_layer, supplementary_layer, physical_nodes=FALSE, layer=1, folder="./meNet/", file_basename="meNet_infomap", infomap_call="infomap",
                                     cor_weighted=TRUE, supp_weighted=TRUE, cor_normalization_fun=max_normalization, supp_normalization_fun=neg_max_normalization,
                                     inter_cor_supp=NULL, inter_supp_cor=inter_cor_supp, infomap_seed=NULL, relaxation_rate=0.15, delete_files=FALSE){

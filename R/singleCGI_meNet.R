@@ -1,4 +1,62 @@
-# check_matrices=FALSE when it is called inside other function since we already checked them
+#' Builds a CpG network for a single CpG island
+#' 
+#' @description Builds a CpG network for a single CGI with (optional) weights 
+#' representing chromosomal distances between CpGs. 
+#' Three methods are available to determine which edges are kept in the network. 
+#' 
+#' @param cg_island Name of a CpG island.
+#' @param cor_matrix Correlation matrix for CpG sites.
+#' @param data Data frame with CpGs in rows. Values in columns are used to
+#' calculate "cor_matrix".
+#' @param link_method
+#' See details. Default value is "twoLyr_clust".
+#' @param weighted
+#' Defaults to TRUE.
+#' @param cor_normalization_method
+#' Default method is "meNet::max_normalization" function.
+#' @param dist_normalization method
+#' Default method is "meNet::neg_max_normalization" function.
+#' @param cor_threshold
+#' Default to 0.2.
+#' @param neg_cor_threshold Optional parameter which
+#' @param cor_stDev
+#' @param cor_alpha
+#' @param n_repetitions    Defaults to 1000
+#' @param alternative 
+#' Default value is "two_sided".
+#' @param infomap_call
+#' Default value is "infomap".
+#' @param folder
+#' Default value is "./meNet/".
+#' @param file_basename
+#' Default value is "meNet_CGI_infomap".
+#' @param relaxation_rate
+#' Defaults to 0.15.
+#' @param cg_meta
+#' @param cg_meta_cols
+#' @param include_regions
+#' @param check_matrices
+#' Default to TRUE. Change this parameter only if caled within other function
+#' which already preforms the check.
+#' @param delete_files
+#' Defults to FALSE. Changing the parameter to TRUE should be done with caution 
+#' since it will allow the function to delete files from user's system.
+#' 
+#' @return 
+#' 
+#' @details 
+#' For the “full” method, the full network is kept. 
+#' For the other methods clustering of CpGs is performed  and only the CpGs in 
+#' the same community are connected. 
+#' For the “clust” method, Infomap clustering is used on the correlation layer 
+#' while for the “twoLyr_clust”, Infomap clustering is performed on a 2-layer 
+#' correlation-distance multiplex . 
+#' 
+#' @import igraph
+#' 
+#' @export
+
+
 # clustering base on correlation
 # return weighted (attribute Dist)
 # much faster if instead of the whole corM you just give the part corresponding to the island (or just smaller)

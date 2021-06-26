@@ -1,5 +1,24 @@
 #' Creates multiplex object from two igraph objects with shared nodes
 #'
+#' @description Constructs a multiplex network from two omics layers. 
+#' Omics layers could previously be constructed using some of the functions 
+#' "meNet_cor", "meNet_CGI" or "meNet_gene". The function handles weight of the
+#' first layer as correlations and weights of the second layer as distances so 
+#' that negative correlation edges are removed from both layers. 
+#' The method can easily be used for different types of layers. Many additional 
+#' parameters can be set, such as rates of transition between layers. 
+#' Depending on the "output_type" parameter, the function either writes the 
+#' network structure to a file using "Infomap" or "Multinet" file design. 
+#' 
+#' @param cor_layer
+#' 
+#' @return 
+#' 
+#' @details 
+#' 
+#' @import igraph
+#' 
+#' @export
 # saves the description in file
 # it searches attributes 'Cor'/'Dist', if not there it takes the first attribute of the graphs
 #'@export
