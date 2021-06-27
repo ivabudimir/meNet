@@ -1,3 +1,37 @@
+#' Plots multiplex network from two igraph layers with shared nodes
+#'
+#' @description Plots a multiplex network from two igraph layer. It is a 
+#' corresponding plotting function for "the meNet::meMultiplex" function
+#' which plots two layers next to each other preserving the location of 
+#' shared nodes.
+#' As in meMultiplex, the first layer can contain negative edge weights while 
+#' the second layer must have only positive weights.
+#' The layout of nodes is based on the first or the second layer or on the 
+#' newly formed layout layer, depending on the specification of function 
+#' parameters. Layout layer can be formed as aggregated network of two given 
+#' layers or as network based on the provided community structure of nodes. 
+#' For further explanation, see Details.
+#' 
+#' @param first_layer The first layer of the multiplex as igraph object.
+#' @param second_layer The second layer of the multiplex as igraph object.
+#' @param layout_layer Defines the plotting method which determines the layout
+#' of nodes. Can take values "first", "second", "module", "aggregated" or 
+#' "coord". See Details.
+#' @param module_df Data frame with community structure. The first column 
+#' contains names of nodes and the second column contains corresponding.
+#' community.
+#' @param cg_list
+#' @param first_weighted
+#' Default to TRUE.
+#' @param second_weighted
+#' Default to TRUE.
+#' @param
+#' @param
+#' @param
+#' @param
+
+
+
 # only first layer can have negative values
 # aggregated layout sums the weights of shared links (keep in mind if changing normalization functions)
 # module layout counts in how many modules two nodes are linked
@@ -6,9 +40,9 @@
 # include module (deleted it, it is deprecated?)
 # for missing nodes in node_col data frame , we set their color to black
 #'@export
-plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NULL, first_weighted=TRUE, second_weighted=TRUE,
+plot_multiplex <- function(first_layer, second_layer, layout_layer="first", module_df=NULL, cg_list=NULL, first_weighted=TRUE, second_weighted=TRUE,
                            first_normalization_fun=.max_normalization, second_normalization_fun=.neg_max_normalization, include_negative=TRUE,
-                           node_sort_fun=.coord_sort, layout_layer="first", layout_fun=igraph::layout_with_fr, layout_weighted=FALSE,
+                           node_sort_fun=.coord_sort, layout_fun=igraph::layout_with_fr, layout_weighted=FALSE,
                            layout_weight_transformation_fun=.max_normalization,
                            main_title=NULL, first_title="Correlation", second_title="CpG island",
                            node_col="black", node_size=2, pos_link_col="grey70", neg_link_col="blue",
@@ -42,7 +76,7 @@ plot_multiplex <- function(first_layer, second_layer, module_df=NULL, cg_list=NU
       stop('"module_df" must be data frame.')
     }
     if(ncol(module_df)!=2){
-      stop('"module_df" must have two columns, the first with node IDs and the second with corresponding module membership.')
+      stop('"module_df" must have two columns, the first with node IDs and the second with corresponding community membership.')
     }
     if(length(union(intersect(V(first_layer)$name, module_df[,1]),intersect(V(second_layer)$name, module_df[,1])))==0){
       stop('The first column of mark.expand=module_border_expand,"module_df" has no shared elements with the nodes. Provide different data frame or adjust other function parameters so that "module_df" is not required.')

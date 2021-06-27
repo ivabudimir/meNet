@@ -10,7 +10,7 @@
 #' non-negative symmetric matrix.
 #' 
 #' @param cor_matrix Correlation matrix.
-#' @param data Data matrix.
+#' @param data Data matrix. Correlation matrix is calculated with "cor(data)".
 #' 
 #' @return List with correlation matrix and data. In case "data" is provided, 
 #' "cor_matrix" is calculated from "data" and given "cor_matrix" is ignored.

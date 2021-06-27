@@ -3,8 +3,8 @@
 #' @description Builds a network of CpGs for a single CpG island (CGI). 
 #' For a given CGI, all CpGs associated with the island are nodes in the network.
 #' Edges are based on the correlation which is provided either directly as
-#' correlation matrix of CpGs or as a data frame with CpGs in rows and 
-#' variables in columns.
+#' correlation matrix of CpGs or as a data frame with CpGs in columns and 
+#' variables in rows.
 #' Different methods can be used to decide which edges are kept in the network:
 #' "full", "clust" or "twoLyr_clust". For explanation, see details.
 #' Resulting network can be weighted in which case weights are distances between
@@ -12,7 +12,7 @@
 #' 
 #' @param cg_island Name of a CpG island.
 #' @param cor_matrix Correlation matrix of CpG sites.
-#' @param data Data frame with CpGs in rows. Variables in columns are used to
+#' @param data Data frame with CpGs in columns. Variables in rows are used to
 #' calculate "cor_matrix".
 #' @param link_method
 #' See details. Default value is "twoLyr_clust".
@@ -54,7 +54,7 @@
 #' @details 
 #' For the “full” method, the full network is kept. 
 #' For the other methods clustering of CpGs is performed  and only the CpGs in 
-#' the same community are connected. 
+#' the same community are connected with edges.
 #' For the “clust” method, Infomap clustering is used on the correlation layer 
 #' while for the “twoLyr_clust”, Infomap clustering is performed on a 2-layer 
 #' correlation-distance multiplex . 
