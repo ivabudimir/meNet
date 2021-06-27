@@ -8,14 +8,16 @@ Description: ...
 
 
 Depends: R (>= 2.10)
-Imports: Rcpp (>= 1.0.6), 
+Imports: Rcpp (>= 1.0.6),
          graphics,
          grDevices,
          igraph,
          multinet,
          plyr,
          dplyr,
-         
+         BSgenome.Hsapiens.UCSC.hg19,
+         Rdpack (>= 0.7)
+RdMacros: Rdpack
 Suggests: 
 LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr, rmarkdown

@@ -1,16 +1,23 @@
 #' Builds a CpG network for a single CpG island
 #' 
-#' @description Builds a CpG network for a single CGI with (optional) weights 
-#' representing chromosomal distances between CpGs. 
-#' Three methods are available to determine which edges are kept in the network. 
+#' @description Builds a network of CpGs for a single CpG island (CGI). 
+#' For a given CGI, all CpGs associated with the island are nodes in the network.
+#' Edges are based on the correlation which is provided either directly as
+#' correlation matrix of CpGs or as a data frame with CpGs in rows and 
+#' variables in columns.
+#' Different methods can be used to decide which edges are kept in the network:
+#' "full", "clust" or "twoLyr_clust". For explanation, see details.
+#' Resulting network can be weighted in which case weights are distances between
+#' CpGs expressed as base pair distance.
 #' 
 #' @param cg_island Name of a CpG island.
-#' @param cor_matrix Correlation matrix for CpG sites.
-#' @param data Data frame with CpGs in rows. Values in columns are used to
+#' @param cor_matrix Correlation matrix of CpG sites.
+#' @param data Data frame with CpGs in rows. Variables in columns are used to
 #' calculate "cor_matrix".
 #' @param link_method
 #' See details. Default value is "twoLyr_clust".
-#' @param weighted
+#' @param weighted Whether the resulting network will be weighted. If TRUE,
+#' the weights are base pair distances between CpGs.
 #' Defaults to TRUE.
 #' @param cor_normalization_method
 #' Default method is "meNet::max_normalization" function.
@@ -52,6 +59,12 @@
 #' while for the “twoLyr_clust”, Infomap clustering is performed on a 2-layer 
 #' correlation-distance multiplex . 
 #' 
+#' Infomap \insertCite{de2015identifying}{meNet}
+#' 
+#' @references
+#'       \insertAllCited{}
+#' 
+#' @importFrom Rdpack reprompt
 #' @import igraph
 #' 
 #' @export
@@ -83,7 +96,7 @@ singleCGI_meNet <- function(cg_island, cor_matrix=NULL, data=NULL, link_method="
       stop('If distances among CpGs are used in network construction, element "cg_coord" must be provided in the named list "cg_meta_cols".')
     }
   }
-  if(link_method!="full"&check_matrices){
+  if(link_method!="full" & check_matrices){
     matrix_preprocessing <- .check_corM_dataDF(cor_matrix, data)
     cor_matrix <- matrix_preprocessing[[1]]
     data <- matrix_preprocessing[[2]]

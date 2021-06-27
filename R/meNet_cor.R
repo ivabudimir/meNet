@@ -4,7 +4,23 @@
 #' are kept in the network, such as a constant threshold for correlation, 
 #' permutation test p-value or standard deviation of bootstrapping.
 #' 
-#' @param cor_layer
+#' @param cor_matrix Correlation matrix of CpG sites.
+#' @param data Data frame with CpGs in rows. Variables in columns are used to
+#' calculate "cor_matrix".
+#' @param cg_ids List of CpGs for which we reconstruct the network. If names of
+#' CpGs are given as "cor_matrix" or "data" row names, "cg_ids" defines a subset
+#' of CpGs which should be used in network. If omitted, all CpGs are used.
+#' If CpG names are not given, "cg_ids" is a mandatory parameter which gives 
+#' the names of CpGs.
+#' @param cor_threshold
+#' @param neg_cor_threshold
+#' @param cor_stDev
+#' cor_threshold/3
+#' @param cor_alpha
+#' @param n_repetitions
+#' @param alternative
+#' @param normalization_function
+#' 
 #' 
 #' @return 
 #' 
@@ -17,9 +33,7 @@
 
 
 
-#' @param cor_matrix Only upper triangle will be used.
-#' @param cg_ids List of CpGs for which we reconstruct the network. If row and column names of "cor_matrix" are given, "cg_ids" can be omitted or it
-#' can define a subset of all CpGs in the "cor_matrix". Otherwise, "cg_ids" contains the names of CpGs from the "cor_matrix".
+
 # @details We don't remove isolated nodes
 # cor_threshold=NA is the same as cor_threshold=0
 # data samples in rows and variables in columns
