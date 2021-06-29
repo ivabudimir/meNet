@@ -1,0 +1,21 @@
+---
+title: "Methylation multiplex"
+output: rmarkdown::html_vignette
+description: 
+  Describes how to reconstruct methylation multiplex with one correlation layer. Second layer can be based on the prior knowledge about CpG islands or about genes. Additionally, the use of function for multiplex plotting is demonstrated.
+vignette: >
+  %\VignetteIndexEntry{Methylation multiplex}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(meNet)
+```

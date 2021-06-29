@@ -1,0 +1,20 @@
+---
+title: "Methylation error plots"
+output: rmarkdown::html_vignette
+description: Describes the use of functions for methylation error plots.
+vignette: >
+  %\VignetteIndexEntry{Methylation error plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(meNet)
+```

@@ -2,11 +2,9 @@ Package: meNet
 Type: Package
 Title: Correlation-based network analysis of methylation data
 Version: 1.0
-Author: c(person("Iva", "Budimir", email = "iva.budimir.os@gmail.com", role = c("aut", "cre")),
+Authors@R: c(person("Iva", "Budimir", email = "iva.budimir.os@gmail.com", role = c("aut", "cre")),
            person("IMforFUTURE", role="fnd"))
-Description: ...
-
-
+Description: Describes the package
 Depends: R (>= 2.10)
 Imports: Rcpp (>= 1.0.6),
          graphics,
@@ -18,10 +16,12 @@ Imports: Rcpp (>= 1.0.6),
          BSgenome.Hsapiens.UCSC.hg19,
          Rdpack (>= 0.7)
 RdMacros: Rdpack
-Suggests: 
 LinkingTo: Rcpp, RcppArmadillo
-VignetteBuilder: knitr, rmarkdown
+VignetteBuilder: knitr
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
-
+Suggests: 
+    rmarkdown,
+    knitr
+RoxygenNote: 7.1.1.9000
