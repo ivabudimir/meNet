@@ -18,8 +18,6 @@ For installation of vignettes together with the package, add
 
 Please check [meNet](https://ivabudimir.github.io/meNet/) website.
 
-Alternatively,
-
 ## License
 
 meNet is open source software, licensed under

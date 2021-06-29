@@ -25,6 +25,11 @@ reference:
   contents:
   - cor_resamplingStats
   - cor_permutationTest
+- subtitle: Methylation Plot Functions
+  desc: Beta value error plots which use CpG coordinates to position them on x-axis.
+  contents:
+  - plotCI_meCpG
+  - plotCI_meCGI
 - subtitle: Other functions
   desc: Secondary functions mostly called from the main functions.
   contents:

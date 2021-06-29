@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Negative maximum normalization — neg_max_normalization • meNet</title>
+<title>Beta value error plot with CpG coordinates — plotCI_meCpG • meNet</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Negative maximum normalization — neg_max_normalization" />
-<meta property="og:description" content="Performs the negative maximum normalization on a non-negative 
-numeric vector. The resulting vector is both reversed and normalized." />
+<meta property="og:title" content="Beta value error plot with CpG coordinates — plotCI_meCpG" />
+<meta property="og:description" content="Beta value error plot with CpG coordinates" />
 
 
 
@@ -122,47 +121,37 @@ numeric vector. The resulting vector is both reversed and normalized." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Negative maximum normalization</h1>
+    <h1>Beta value error plot with CpG coordinates</h1>
     
-    <div class="hidden name"><code>neg_max_normalization.Rd</code></div>
+    <div class="hidden name"><code>plotCI_meCpG.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Performs the negative maximum normalization on a non-negative 
-numeric vector. The resulting vector is both reversed and normalized.</p>
+    <p>Beta value error plot with CpG coordinates</p>
     </div>
 
-    <pre class="usage"><span class='fu'>neg_max_normalization</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plotCI_meCpG</span><span class='op'>(</span>
+  <span class='va'>beta_values</span>,
+  <span class='va'>sample_groups</span>,
+  cg_list <span class='op'>=</span> <span class='cn'>NULL</span>,
+  chr <span class='op'>=</span> <span class='cn'>NULL</span>,
+  first_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
+  last_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
+  add_cg <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  add_genes <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  add_exons <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>Non-negative numeric vector.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Normalized numeric vector.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For negative maximum normalization of a vector, difference between the 
-maximum and minimal value of the vector is added tothe inverse value of every 
-element and the result is divided with the original maximum value. 
-Used formula: `(max(x)-min(x)-x)/max(x)`.</p>
-<p>If the negative maximum normalization is applied twice to a 
-non-negative vector, obtained result is the same as if the maximum 
-normalization was applied once.</p>
+    <p>Plots error bars and confidence intervals for beta values of given 
+CpGs. If list of CpGs is given, they are plotted equidistantly. 
+If a range of coordinates and a chromosome are given, then all CpGs inside 
+the range are plotted and positioned on x-axis based on their chromosomal 
+coordinate. If the latter case, positions of unmeasured CpGs inside the 
+region can be added to the plot.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='fu'>neg_max_normalization</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>neg_max_normalization</span><span class='op'>(</span><span class='fu'>neg_max_normalization</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] 0.25 0.50 0.75 1.00</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

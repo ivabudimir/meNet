@@ -5,7 +5,7 @@ Version: 1.0
 Authors@R: c(person("Iva", "Budimir", email = "iva.budimir.os@gmail.com", role = c("aut", "cre")),
            person("IMforFUTURE", role="fnd"))
 Description: Describes the package
-Depends: R (>= 2.10)
+Depends: R (>= 3.5.0)
 Imports: Rcpp (>= 1.0.6),
          graphics,
          grDevices,
