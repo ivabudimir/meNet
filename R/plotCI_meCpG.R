@@ -1,4 +1,6 @@
 #' Beta value error plot with CpG coordinates
+#' 
+#' Description
 #'
 #' @details Plots error bars and confidence intervals for beta values of given 
 #' CpGs. If list of CpGs is given, they are plotted equidistantly. 

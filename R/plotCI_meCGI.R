@@ -1,4 +1,6 @@
 #' Beta value error plot for a CpG island
+#' 
+#' Description
 #'
 #' @details Plots error bars and confidence intervals for beta values of CpGs 
 #' belonging to a given CGI. This function calls the plotCI_meCGs function 
