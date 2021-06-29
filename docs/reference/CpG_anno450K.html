@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Illumina Infinium HumanMethylation450 manifest file — CpG_anno450K • meNet</title>
+<title>Description of HM450K CpG sites — CpG_anno450K • meNet</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Illumina Infinium HumanMethylation450 manifest file — CpG_anno450K" />
-<meta property="og:description" content="Illumina “HumanMethylation450 15017482 v1-2.csv” manifest file with the
-description of CpG sites measured by Illumina 450K microarray." />
+<meta property="og:title" content="Description of HM450K CpG sites — CpG_anno450K" />
+<meta property="og:description" content="Description file for CpGs  measured by Illumina 450K microarray.
+It is Illumina `“HumanMethylation450 15017482 v1-2.csv”` manifest file with
+reduced number of columns." />
 
 
 
@@ -99,10 +100,10 @@ description of CpG sites measured by Illumina 450K microarray." />
       <a href="../articles/meMultiplex.html">Methylation multiplex</a>
     </li>
     <li>
-      <a href="../articles/methylation-plots.html">Methylation error plots</a>
+      <a href="../articles/resampling-methods.html">Resampling methods for correlation</a>
     </li>
     <li>
-      <a href="../articles/resampling-methods.html">Resampling methods for correlation</a>
+      <a href="../articles/methylation-plots.html">Methylation error plots</a>
     </li>
   </ul>
 </li>
@@ -122,14 +123,15 @@ description of CpG sites measured by Illumina 450K microarray." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Illumina Infinium HumanMethylation450 manifest file</h1>
+    <h1>Description of HM450K CpG sites</h1>
     
     <div class="hidden name"><code>CpG_anno450K.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Illumina “HumanMethylation450 15017482 v1-2.csv” manifest file with the
-description of CpG sites measured by Illumina 450K microarray.</p>
+    <p>Description file for CpGs  measured by Illumina 450K microarray.
+It is Illumina `“HumanMethylation450 15017482 v1-2.csv”` manifest file with
+reduced number of columns.</p>
     </div>
 
     <pre class="usage"><span class='va'>CpG_anno450K</span></pre>
@@ -137,8 +139,27 @@ description of CpG sites measured by Illumina 450K microarray.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with CpG sites in the rows and their description in the
-columns.</p>
+    <p>A data frame with 485512 rows and variables:</p><dl>
+   <dt>IlmnID</dt><dd><p>Unique CpG identifier from the Illumina CG database.</p></dd>
+   <dt>CHR</dt><dd><p>Chromosome containing the CpG.</p></dd>
+   <dt>MAPINFO</dt><dd><p>Chromosomal coordinates of the CpG.</p></dd>
+   <dt>Strand</dt><dd><p>The Forward (F) or Reverse (R) designation of the Design 
+   Strand.</p></dd>
+   <dt>UCSC_RefGene_Name</dt><dd><p>Target gene name(s), from the UCSC database. 
+   *Note: multiple listings of the same gene name indicate splice variants.</p></dd>
+   <dt>UCSC_RefGene_Accession</dt><dd><p>The UCSC accession number(s) of the target 
+   transcript(s). Accession numbers are given in the same order as the target
+   gene transcripts.</p></dd>
+   <dt>UCSC_RefGene_Group</dt><dd><p>Gene region feature category describing the CpG 
+   position, from UCSC. Features listed in the same order as the target gene 
+   transcripts.</p></dd>
+   <dt>UCSC_CpG_Islands_Name</dt><dd><p>Chromosomal coordinates of the CpG island 
+   from UCSC</p></dd>
+   <dt>Relation_to_UCSC_CpG_Island</dt><dd><p>The location of the CpG relative to the
+   CpG island.</p></dd>
+
+</dl>
+
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p><a href='https://support.illumina.com/downloads/humanmethylation450_15017482_v1-2_product_files.html'>https://support.illumina.com/downloads/humanmethylation450_15017482_v1-2_product_files.html</a></p>

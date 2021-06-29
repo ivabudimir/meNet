@@ -1,0 +1,47 @@
+articles:
+- title: All articles
+  navbar: ~
+  contents:
+  - meMultiplex
+  - resampling-methods
+  - methylation-plots
+
+reference:
+- title: Functions
+- subtitle: Network Functions
+  desc: Functions for reconstruction, community detection and plotting of methylation multiplex.
+  contents:
+  - meNet_cor
+  - meNet_singleCGI
+  - meNet_CGI
+  - meNet_singleGene
+  - meNet_gene
+  - meMultiplex
+  - meMultiplex_communities
+  - meMultiplex_to_multinet
+  - plot_multiplex
+- subtitle: Resampling Functions 
+  desc: Functions which estimate the variability of correlation and calculte p-value  of the correlation permutation test.
+  contents:
+  - cor_resamplingStats
+  - cor_permutationTest
+- subtitle: Other functions
+  desc: Secondary functions mostly called from the main functions.
+  contents:
+  - boxed_heatmap
+  - CpG_in_CGI
+  - find_CpG
+  - read_infomap_communities
+  - coord_sort
+  - max_normalization
+  - neg_max_normalization
+- title: Data
+  desc:
+  contents:
+  - CpG_anno450K
+  - CpG_genes
+  - UCSC_CGI
+  - UCSC_genes
+  - N_ranges
+  
+  

@@ -3,10 +3,7 @@
 \docType{data}
 \name{UCSC_CGI}
 \alias{UCSC_CGI}
-\title{Data frame with all UCSC islands in rows and columns: CpG_island_name, chr, start, end, 
-length, strand and UCSC_CpG_island_name. 
-The last column matches the CGI names used in Infinium HumanMethylation450 description file. 
-UCSC CpG islands}
+\title{UCSC CpG islands}
 \format{
 A data frame with 27718 rows and 6 variables:
 \describe{

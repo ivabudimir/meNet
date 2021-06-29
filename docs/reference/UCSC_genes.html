@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Maximum normalization — max_normalization • meNet</title>
+<title>UCSC transcripts — UCSC_genes • meNet</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,13 @@
 
 
 
-<meta property="og:title" content="Maximum normalization — max_normalization" />
-<meta property="og:description" content="Performs the maximum normalization dividing every element of the 
-vector with the maximum absolute value." />
+<meta property="og:title" content="UCSC transcripts — UCSC_genes" />
+<meta property="og:description" content="Data frame with description of both protein-coding and non-protein-coding 
+transcripts including positions of exons. Transcript name starts with
+`&quot;NM&quot;` for protein-coding and with `&quot;NR&quot;` for non-protein coding transcripts.
+It is downloaded as `“UCSC RefSeq (refGene)”` table from the UCSC Table
+Browser for assembly `“Feb. 2009 (GRCh37/hg19)”` and group 
+`“Genes and Gene Predictions”`." />
 
 
 
@@ -122,37 +126,43 @@ vector with the maximum absolute value." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Maximum normalization</h1>
+    <h1>UCSC transcripts</h1>
     
-    <div class="hidden name"><code>max_normalization.Rd</code></div>
+    <div class="hidden name"><code>UCSC_genes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Performs the maximum normalization dividing every element of the 
-vector with the maximum absolute value.</p>
+    <p>Data frame with description of both protein-coding and non-protein-coding 
+transcripts including positions of exons. Transcript name starts with
+`"NM"` for protein-coding and with `"NR"` for non-protein coding transcripts.
+It is downloaded as `“UCSC RefSeq (refGene)”` table from the UCSC Table
+Browser for assembly `“Feb. 2009 (GRCh37/hg19)”` and group 
+`“Genes and Gene Predictions”`.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>max_normalization</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>UCSC_genes</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>Numeric vector.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Normalized numeric vector.</p>
+    <p>A data frame with 78288 rows and variables:</p><dl>
+   <dt>name</dt><dd><p>Name of gene/transcript.</p></dd>
+   <dt>chrom</dt><dd><p>Chromosome containing the gene.</p></dd>
+   <dt>strand</dt><dd><p>Genome strand on which the gene is located.</p></dd>
+   <dt>txStart</dt><dd><p>Transcription start position (or end position for minus strand).</p></dd>
+   <dt>txEnd</dt><dd><p>Transcription end position (or start position for minus strand).</p></dd>
+   <dt>cdsStart</dt><dd><p>Coding region start position (or end position for minus strand).</p></dd>
+   <dt>cdsEnd</dt><dd><p>Coding region end position (or start position for minus strand).</p></dd>
+   <dt>exonCount</dt><dd><p>Number of exons.</p></dd>
+   <dt>exonStarts</dt><dd><p>Exon start positions (or end positions for minus strand).</p></dd>
+   <dt>exonEnds</dt><dd><p>Exon end position (or start positions for minus strand).</p></dd>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='fu'>max_normalization</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; [1] 0.25 0.50 0.75 1.00</div><div class='input'>
-</div></pre>
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='http://genome.ucsc.edu/cgi-bin/hgTables'>http://genome.ucsc.edu/cgi-bin/hgTables</a></p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

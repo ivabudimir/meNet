@@ -1,7 +1,7 @@
 ---
 title: "Resampling methods for correlation"
 output: rmarkdown::html_vignette
-description: Demonstrates the use of resampling functions which estimate the variability of correlation and calculte p-value of the correlation permutation test.
+description: Demonstrates the use of resampling functions which estimate the variability of correlation and calculate p-value of the correlation permutation test.
 vignette: >
   %\VignetteIndexEntry{Resampling methods for correlation}
   %\VignetteEngine{knitr::rmarkdown}

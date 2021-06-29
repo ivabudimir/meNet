@@ -97,10 +97,10 @@
       <a href="../articles/meMultiplex.html">Methylation multiplex</a>
     </li>
     <li>
-      <a href="../articles/methylation-plots.html">Methylation error plots</a>
+      <a href="../articles/resampling-methods.html">Resampling methods for correlation</a>
     </li>
     <li>
-      <a href="../articles/resampling-methods.html">Resampling methods for correlation</a>
+      <a href="../articles/methylation-plots.html">Methylation error plots</a>
     </li>
   </ul>
 </li>
@@ -134,7 +134,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-functions" class="hasAnchor"><a href="#section-functions" class="anchor"></a>Functions</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -142,76 +142,46 @@
       
     </tbody><tbody>
       
+      <tr>
+        <th colspan="2">
+          <h3 id="section-network-functions" class="hasAnchor"><a href="#section-network-functions" class="anchor"></a>Network Functions</h3>
+          <p class="section-desc"><p>Functions for reconstruction, community detection and plotting of methylation multiplex.</p></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
       
       <tr>
         
         <td>
-          <p><code><a href="CpG_anno450K.html">CpG_anno450K</a></code> </p>
+          <p><code><a href="meNet_cor.html">meNet_cor()</a></code> </p>
         </td>
-        <td><p>Illumina Infinium HumanMethylation450 manifest file</p></td>
+        <td><p>CpG network: edges based on correlation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="CpG_genes.html">CpG_genes</a></code> </p>
+          <p><code><a href="meNet_singleCGI.html">meNet_singleCGI()</a></code> </p>
         </td>
-        <td><p>Genes associated with Illumina 450K CpG sites</p></td>
+        <td><p>CpG network for a single CpG island</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="CpG_in_CGI.html">CpG_in_CGI()</a></code> </p>
+          <p><code><a href="meNet_CGI.html">meNet_CGI()</a></code> </p>
         </td>
-        <td><p>CpGs within a CpG island</p></td>
+        <td><p>CpG network: edges are based on CpG island affiliation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="N_ranges.html">N_ranges</a></code> </p>
+          <p><code><a href="meNet_singleGene.html">meNet_singleGene()</a></code> </p>
         </td>
-        <td><p>Unsequences genome</p></td>
+        <td><p>CpG network for a single gene</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="UCSC_CGI.html">UCSC_CGI</a></code> </p>
+          <p><code><a href="meNet_gene.html">meNet_gene()</a></code> </p>
         </td>
-        <td><p>Data frame with all UCSC islands in rows and columns: CpG_island_name, chr, start, end, 
-length, strand and UCSC_CpG_island_name. 
-The last column matches the CGI names used in Infinium HumanMethylation450 description file. 
-UCSC CpG islands</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="boxed_heatmap.html">boxed_heatmap()</a></code> </p>
-        </td>
-        <td><p>Heat map without the use of `layout` function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="coord_sort.html">coord_sort()</a></code> </p>
-        </td>
-        <td><p>Sorting CpGs by coordinate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cor_permutationTest.html">cor_permutationTest()</a></code> </p>
-        </td>
-        <td><p>Correlation permutation test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cor_resamplingStats.html">cor_resamplingStats()</a></code> </p>
-        </td>
-        <td><p>Mean and standard deviation of correlation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="find_CpG.html">find_CpG()</a></code> </p>
-        </td>
-        <td><p>CpG coordinates on a chromosome</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="max_normalization.html">max_normalization()</a></code> </p>
-        </td>
-        <td><p>Maximum normalization</p></td>
+        <td><p>CpG network: edges are based on gene affiliation</p></td>
       </tr><tr>
         
         <td>
@@ -233,51 +203,132 @@ UCSC CpG islands</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="meNet_CGI.html">meNet_CGI()</a></code> </p>
-        </td>
-        <td><p>CpG network: edges are based on CpG island affiliation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meNet_cor.html">meNet_cor()</a></code> </p>
-        </td>
-        <td><p>CpG network: edges based on correlation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meNet_gene.html">meNet_gene()</a></code> </p>
-        </td>
-        <td><p>CpG network: edges are based on gene affiliation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meNet_singleCGI.html">meNet_singleCGI()</a></code> </p>
-        </td>
-        <td><p>CpG network for a single CpG island</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meNet_singleGene.html">meNet_singleGene()</a></code> </p>
-        </td>
-        <td><p>CpG network for a single gene</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="neg_max_normalization.html">neg_max_normalization()</a></code> </p>
-        </td>
-        <td><p>Negative maximum normalization</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="plot_multiplex.html">plot_multiplex()</a></code> </p>
         </td>
         <td><p>Multiplex plot</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-resampling-functions" class="hasAnchor"><a href="#section-resampling-functions" class="anchor"></a>Resampling Functions</h3>
+          <p class="section-desc"><p>Functions which estimate the variability of correlation and calculte p-value of the correlation permutation test.</p></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="cor_resamplingStats.html">cor_resamplingStats()</a></code> </p>
+        </td>
+        <td><p>Mean and standard deviation of correlation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cor_permutationTest.html">cor_permutationTest()</a></code> </p>
+        </td>
+        <td><p>Correlation permutation test</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-other-functions" class="hasAnchor"><a href="#section-other-functions" class="anchor"></a>Other functions</h3>
+          <p class="section-desc"><p>Secondary functions mostly called from the main functions.</p></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="boxed_heatmap.html">boxed_heatmap()</a></code> </p>
+        </td>
+        <td><p>Heat map without the use of `layout` function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="CpG_in_CGI.html">CpG_in_CGI()</a></code> </p>
+        </td>
+        <td><p>CpGs within a CpG island</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="find_CpG.html">find_CpG()</a></code> </p>
+        </td>
+        <td><p>CpG coordinates on a chromosome</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="read_infomap_communities.html">read_infomap_communities()</a></code> </p>
         </td>
         <td><p>Multiplex community structure from file</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="coord_sort.html">coord_sort()</a></code> </p>
+        </td>
+        <td><p>Sorting CpGs by coordinate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="max_normalization.html">max_normalization()</a></code> </p>
+        </td>
+        <td><p>Maximum normalization</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="neg_max_normalization.html">neg_max_normalization()</a></code> </p>
+        </td>
+        <td><p>Negative maximum normalization</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="CpG_anno450K.html">CpG_anno450K</a></code> </p>
+        </td>
+        <td><p>Description of HM450K CpG sites</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="CpG_genes.html">CpG_genes</a></code> </p>
+        </td>
+        <td><p>Genes associated with HM450K CpG sites</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="UCSC_CGI.html">UCSC_CGI</a></code> </p>
+        </td>
+        <td><p>UCSC CpG islands</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="UCSC_genes.html">UCSC_genes</a></code> </p>
+        </td>
+        <td><p>UCSC transcripts</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="N_ranges.html">N_ranges</a></code> </p>
+        </td>
+        <td><p>Unsequences genome</p></td>
       </tr>
     </tbody>
     </table>

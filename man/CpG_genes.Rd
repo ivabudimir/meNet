@@ -3,14 +3,14 @@
 \docType{data}
 \name{CpG_genes}
 \alias{CpG_genes}
-\title{Genes associated with Illumina 450K CpG sites}
+\title{Genes associated with HM450K CpG sites}
 \format{
 A data frame 687137 rows and 6 variables:
 \describe{
-   \item{IlmnID}{Unique CpG identifier from Illumina CG database}
+   \item{IlmnID}{Unique CpG identifier from Illumina CG database.}
    \item{CHR}{Chromosome containing the CpG.}
    \item{MAPINFO}{Chromosomal coordinate of the CpG.}
-   \item{UCSC_RefGene_Name}{Target gene name, from the UCSC database}
+   \item{UCSC_RefGene_Name}{Target gene name, from the UCSC database.}
    \item{UCSC_RefGene_Accession}{The UCSC accession number of the target transcript.}
    \item{UCSC_RefGene_Accession}{Gene region describing the CpG position.}
 }

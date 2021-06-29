@@ -16,13 +16,32 @@
 
 
 
-#' Illumina Infinium HumanMethylation450 manifest file
+#' Description of HM450K CpG sites
 #'
-#' Illumina “HumanMethylation450 15017482 v1-2.csv” manifest file with the
-#' description of CpG sites measured by Illumina 450K microarray.
+#' Description file for CpGs  measured by Illumina 450K microarray.
+#' It is Illumina `“HumanMethylation450 15017482 v1-2.csv”` manifest file with
+#' reduced number of columns.
 #'
-#' @format A data frame with CpG sites in the rows and their description in the
-#' columns.
+#' @format A data frame with 485512 rows and variables:
+#' \describe{
+#'    \item{IlmnID}{Unique CpG identifier from the Illumina CG database.}
+#'    \item{CHR}{Chromosome containing the CpG.}
+#'    \item{MAPINFO}{Chromosomal coordinates of the CpG.}
+#'    \item{Strand}{The Forward (F) or Reverse (R) designation of the Design 
+#'    Strand.}
+#'    \item{UCSC_RefGene_Name}{Target gene name(s), from the UCSC database. 
+#'    *Note: multiple listings of the same gene name indicate splice variants.}
+#'    \item{UCSC_RefGene_Accession}{The UCSC accession number(s) of the target 
+#'    transcript(s). Accession numbers are given in the same order as the target
+#'    gene transcripts.}
+#'    \item{UCSC_RefGene_Group}{Gene region feature category describing the CpG 
+#'    position, from UCSC. Features listed in the same order as the target gene 
+#'    transcripts.}
+#'    \item{UCSC_CpG_Islands_Name}{Chromosomal coordinates of the CpG island 
+#'    from UCSC}
+#'    \item{Relation_to_UCSC_CpG_Island}{The location of the CpG relative to the
+#'    CpG island.}
+#' }
 #'
 #'@source \url{https://support.illumina.com/downloads/humanmethylation450_15017482_v1-2_product_files.html}
 #'
@@ -30,7 +49,7 @@
 
 
 
-#' Genes associated with Illumina 450K CpG sites
+#' Genes associated with HM450K CpG sites
 #' 
 #' Data frame based on the `CpG_anno450K`, Illumina Infinium HumanMethylation450
 #' manifest file, describing the relationship between CpG sites and
@@ -39,20 +58,15 @@
 #' 
 #' @format A data frame 687137 rows and 6 variables:
 #' \describe{
-#'    \item{IlmnID}{Unique CpG identifier from Illumina CG database}
+#'    \item{IlmnID}{Unique CpG identifier from Illumina CG database.}
 #'    \item{CHR}{Chromosome containing the CpG.}
 #'    \item{MAPINFO}{Chromosomal coordinate of the CpG.}
-#'    \item{UCSC_RefGene_Name}{Target gene name, from the UCSC database}
+#'    \item{UCSC_RefGene_Name}{Target gene name, from the UCSC database.}
 #'    \item{UCSC_RefGene_Accession}{The UCSC accession number of the target transcript.}
 #'    \item{UCSC_RefGene_Accession}{Gene region describing the CpG position.}
 #' }
 #'  
 "CpG_genes"
-
-
-#' Data frame with all UCSC islands in rows and columns: CpG_island_name, chr, start, end, 
-#' length, strand and UCSC_CpG_island_name. 
-#' The last column matches the CGI names used in Infinium HumanMethylation450 description file. 
 
 
 
@@ -92,7 +106,7 @@
 #'    \item{strand}{Genome strand on which the gene is located.}
 #'    \item{txStart}{Transcription start position (or end position for minus strand).}
 #'    \item{txEnd}{Transcription end position (or start position for minus strand).}
-#'    \item{cdsStart}{Coding region start position (or end position for minus strand)..}
+#'    \item{cdsStart}{Coding region start position (or end position for minus strand).}
 #'    \item{cdsEnd}{Coding region end position (or start position for minus strand).}
 #'    \item{exonCount}{Number of exons.}
 #'    \item{exonStarts}{Exon start positions (or end positions for minus strand).}
@@ -100,4 +114,4 @@
 #' }
 #'
 #' @source \url{http://genome.ucsc.edu/cgi-bin/hgTables}
-
+"UCSC_genes"
