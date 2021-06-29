@@ -1,20 +1,23 @@
-#' Draws a heat map without the use of 'layout' function
+#' Heat map without the use of `layout` function
 #'
 #' @description Function which draws heat map with box around it and without any legend.
-#' The function calls 'image' and because of its simplicity it doesn't use 'layout' so it can be used
-#' inside the 'layout' function together with other plots.
+#' The function calls `image` and because of its simplicity it doesn't use `layout` so it can be used
+#' inside the `layout` function together with other plots.
 #'
-#' @params cor_matrix Correlation matrix.
-#' @params clrs_list A list of colors passed to 'colorRampPalette'. If three colors are given, first
-#' corresponds to negative correlation, second to zero correlation and third to positive correlation.
-#' Defaults to 'c("blue", "white", "red")'.
-#' @params title Title for the heatmap. Passed to the 'title' function.
-#' @params color_title Color of the title. Passed to the 'title' function.
-#' @params cex_title Size of the title. Passed to the 'title' function.
-#' @params line_title Line at which title is added to the plot. Passed to the 'title' function.
-#' @params margin_add Additional size for the margins. 'c(0.5,0.5,0.5,0.5)+margin_add' 
-#' is passed as the 'mar' parameter to 'par'. Defaults to 1.5.
-#' @params box_width Width of the box around the heatmap. Passed to the 'box' function.
+#' @param cor_matrix Correlation matrix.
+#' @param clrs_list A list of colors passed to `graphics::colorRampPalette`. 
+#' If three colors are given, first corresponds to negative correlation, second 
+#' to zero correlation and third to positive correlation.
+#' Defaults to `c("blue", "white", "red")`.
+#' @param title Title for the heat map. Passed to the `graphics::title` function.
+#' @param color_title Color of the title. Passed to the `graphics::title` function.
+#' @param cex_title Size of the title. Passed to the `graphics::title` function.
+#' @param line_title Line at which title is added to the plot. Passed to the `graphics::title`
+#' function.
+#' @param margin_add Additional size for the margins. `c(0.5,0.5,0.5,0.5)+margin_add`
+#' is passed as the `mar` parameter to `graphics::par`. Defaults to 1.5.
+#' @param box_width Width of the box around the heat map. 
+#' Passed to the `graphics::box` function.
 #'
 #' @import graphics
 #'

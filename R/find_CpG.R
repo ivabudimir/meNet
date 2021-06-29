@@ -1,11 +1,11 @@
-#' Finds positions of all CpG sites on a chromosome
+#' CpG coordinates on a chromosome
 #'
 #' @description For a given chromosome, returns positions of all "CG" 
 #' dinucleotides (CpG sites) based on a human genome assembly hg19. If minimum
 #' or maximum position is given, only CpGs in the given range are returned.
 #' 
-#' @param chromosome Name of a human chromosome in the format "chr?", where "?" 
-#' must either be a number from 1 to 22 or "X" or "Y".
+#' @param chromosome Name of a human chromosome in the format `"chr?"`, where `"?"`
+#' must either be a number from `1` to `22` or `"X"` or `"Y"`.
 #' @param min_coord Minimum returned coordinate.
 #' @param max_coord Maximum returned coordinate.
 #' 
@@ -13,8 +13,8 @@
 #' 
 #' @details Returned position is a position of "C". The same convention is used
 #' by Illumina Infinium HM450K manifest file.
-#' Function is based on R package "BSgenome.Hsapiens.UCSC.hg19"
-#'\insertCite{de2015identifying}{team2020bsgenome}.
+#' Function is based on R package `"BSgenome.Hsapiens.UCSC.hg19"`
+#' \insertCite{team2020bsgenome}{meNet}.
 #' 
 #' @references
 #'       \insertAllCited{}

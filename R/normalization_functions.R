@@ -1,14 +1,15 @@
-#' Maximum normalization of a vector
+#' Maximum normalization
 #' 
 #' @description Performs the maximum normalization dividing every element of the 
 #' vector with the maximum absolute value.
 #' 
-#' @param x Numeric vecotr.
+#' @param x Numeric vector.
 #' 
 #' @return Normalized numeric vector.
 #' 
-#' @example 
+#' @examples{
 #' max_normalization(c(1,2,3,4))
+#' }
 #'
 #' @export
 max_normalization <- function(x=numeric(0)){
@@ -22,25 +23,29 @@ max_normalization <- function(x=numeric(0)){
 }
 
 
-#' Negative maximum normalization of a vector
+#' Negative maximum normalization
 #' 
 #' @description Performs the negative maximum normalization on a non-negative 
 #' numeric vector. The resulting vector is both reversed and normalized.
-#' Difference between the maximum and minimal value of the vector is added to 
-#' the inverse value of every element and the result is divided with the 
-#' original maximum value. Used formula: (max(x)-min(x)-x)/max(x).
 #' 
-#' @param x Non-negative numeric vecotr.
+#' @param x Non-negative numeric vector.
 #' 
 #' @return Normalized numeric vector.
 #' 
-#' @details If the negative maximum normalization is applied twice to a 
+#' @details
+#' For negative maximum normalization of a vector, difference between the 
+#' maximum and minimal value of the vector is added tothe inverse value of every 
+#' element and the result is divided with the original maximum value. 
+#' Used formula: `(max(x)-min(x)-x)/max(x)`.
+#' 
+#' If the negative maximum normalization is applied twice to a 
 #' non-negative vector, obtained result is the same as if the maximum 
 #' normalization was applied once.
 #' 
-#' @examples 
+#' @examples{
 #' neg_max_normalization(c(1,2,3,4))
 #' neg_max_normalization(neg_max_normalization(c(1,2,3,4)))
+#' }
 #'
 #' @export
 neg_max_normalization <- function(x=numeric(0)){

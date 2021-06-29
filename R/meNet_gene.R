@@ -1,28 +1,30 @@
-#' Builds a CpG network where edges are based on gene affiliation
+#' CpG network: edges are based on gene affiliation
 #' 
-#' @description For every present gene, function "singleGene_meNet" is called 
+#' @description For every present gene, function "meNet_singleGene" is called 
 #' and the resulting network is a union of the single-gene networks. 
 #' (Optional) weights are chromosomal distances.
 #' 
-#' @param cor_layer
+#' @param cg_list
 #' 
 #' @return 
 #' 
 #' @details 
 #' 
-#' @import igraph
 #' 
-#' @export
-
-
-# @details if both cg_list and gene_list are given, we merge both lists;
+#' if both cg_list and gene_list are given, we merge both lists;
 # we leave also isolated CpGs
 # if expand_cg_list=TRUE, we add all CpGs from genes
 # gene list can be a list genes or transcripts (gene_id)
 # we use the data frame constructed and saved (load with data in package)
 #    * we, could also use Promoter=TSS200+TSS1500+5'UTR+1stExon, as in
-#     "Validation of a DNA methylation microarray for 450,000 CpG sites in the human genome" by J. Sandoval et al.
-#'@export
+#     "Validation of a DNA methylation microarray for 450,000 CpG sites 
+#'     in the human genome" by J. Sandoval et al.
+#' 
+#' 
+#' 
+#' @import igraph
+#' 
+#' @export
 meNet_gene <- function(cg_list=NULL, gene_list=NULL, weighted=TRUE, link_method="twoLyr_clust",
                        cor_matrix=NULL, data=NULL, cor_normalization_fun=max_normalization, dist_normalization_fun=neg_max_normalization,
                        cor_threshold=0.2, neg_cor_threshold=NULL, cor_stDev=NULL, cor_alpha=NULL, n_repetitions=1000, alternative="two_sided",
@@ -126,7 +128,7 @@ meNet_gene <- function(cg_list=NULL, gene_list=NULL, weighted=TRUE, link_method=
     }else{
       file_basename <- file_basename
     }
-    graph_gene <- singleGene_meNet(gene_list[i], cor_matrix=corM_i, data=dataM_i, link_method=link_method, weighted=weighted,
+    graph_gene <- meNet_singleGene(gene_list[i], cor_matrix=corM_i, data=dataM_i, link_method=link_method, weighted=weighted,
                                    cor_normalization_fun=cor_normalization_fun, dist_normalization_fun=dist_normalization_fun,
                                    cor_threshold=cor_threshold, neg_cor_threshold=neg_cor_threshold, cor_stDev=cor_stDev, cor_alpha=cor_alpha, n_repetitions=n_repetitions, alternative=alternative,
                                    infomap_call=infomap_call, folder=folder, file_basename=file_basename, relaxation_rate=relaxation_rate,
@@ -164,7 +166,7 @@ meNet_gene <- function(cg_list=NULL, gene_list=NULL, weighted=TRUE, link_method=
     }else{
       file_basename <- file_basename
     }
-    graph_gene <- singleGene_meNet(gene_to_add[i], cor_matrix=corM_i, data=dataM_i, link_method=link_method, weighted=weighted,
+    graph_gene <- meNet_singleGene(gene_to_add[i], cor_matrix=corM_i, data=dataM_i, link_method=link_method, weighted=weighted,
                                    cor_normalization_fun=cor_normalization_fun, dist_normalization_fun=dist_normalization_fun,
                                    cor_threshold=cor_threshold, neg_cor_threshold=neg_cor_threshold, cor_stDev=cor_stDev, cor_alpha=cor_alpha, n_repetitions=n_repetitions, alternative=alternative,
                                    infomap_call=infomap_call, folder=folder, file_basename=file_basename, relaxation_rate=relaxation_rate,

@@ -1,56 +1,78 @@
-#' Creates multiplex object from two igraph layers with shared nodes
+#' Multiplex: `meNet` file from two `igraph` layers
 #'
-#' @description Constructs a multiplex network from two igraph layers. 
-#' Layers could previously be constructed using some of the functions 
-#' "meNet_cor", "meNet_CGI" or "meNet_gene". The function handles weight of the
-#' first layer as correlations and weights of the second layer as distances so 
-#' that edged with negative correlation are removed from both layers.
-#' Additional parameters can be set, such as the weight of inter-layer egdes
-#' which correspond to rates of transition if Infomap clustering will be used
-#' later.
-#' Depending on the "output_type" parameter, the function either writes the 
-#' network structure to a file using Infomap Infomap \insertCite{infomap}{meNet}
-#' or multinet multinet \insertCite{multinet}{meNet} file design.
+#' @description Constructs a multiplex network from two `igraph` layers and 
+#' writes the multiplex structure to file. Layers should share some, but
+#' not necessary all, nodes. Function interprets the first layer as correlation 
+#' layer. The second layer, if weighted, should have only non.negative weights and 
+#' can be interpreted as distance layer. Multiplex structure can be written as
+#' `Infomap` of `multinet` object.
 #' 
-#' @param cor_layer Correlation layer of the multiplex as igraph object.
-#' @param supplementary_layer Supplementary layer of the multiples as igraph
+#' @param cor_layer Correlation layer of the multiplex as `igraph` object.
+#' @param supplementary_layer Supplementary layer of the multiples as `igraph`
 #' object.
 #' @param output_file Name of the output file to which multiplex structure
 #' is written.
-#' @param cor_weighted Whether the correlation layer is weighted. If FALSE,
-#' all weights are set to 1. Defaults to TRUE.
-#' @param supp_weighted Whether the supplementary layer is weighted. If FALSE,
-#' all weights are set to 1. Defaults to TRUE.
+#' @param cor_weighted Whether the correlation layer is weighted. If `FALSE`,
+#' all weights are set to `1`. Defaults to `TRUE`.
+#' @param supp_weighted Whether the supplementary layer is weighted. If `FALSE`,
+#' all weights are set to `1`. Defaults to `TRUE`.
 #' @param cor_normalization_fun Normalization function applied on the weights
-#' of the correlation layer, if the layer is weighted. If NULL, no normalization
-#' is applied. Defaults to "meNet::max_normalization".
+#' of the correlation layer, if the layer is weighted. If `NULL`, no normalization
+#' is applied. Defaults to `max_normalization`.
 #' @param supp_normalization_fun Normalization function applied on the weights
-#' of the supplementary layer, if the layer is weighted. If NULL, no normalization
-#' is applied. Defaults to "meNet::neg_max_normalization".
+#' of the supplementary layer, if the layer is weighted. If `NULL`, no normalization
+#' is applied. Defaults to `neg_max_normalization`.
 #' @param output_type Structure of the output file. Has to be one of the values
-#' "infomap" or "multinet". Default value is "infomap".
-#' @param inter_cor_supp Weight of the inter-layer links from the correlation
-#' layer to the supplementary layer. Defaults to 1.
-#' @param inter_supp_cor Weight of the inter-layer links from the supplementary
+#' "infomap"`` or `"multinet"`. Default value is `"infomap"`.
+#' @param inter_cor_supp Weight of the inter-layer edges from the correlation
+#' layer to the supplementary layer. Defaults to `NULL`.
+#' @param inter_supp_cor Weight of the inter-layer edges from the supplementary
 #' layer to the correlation layer.
-#' By default, the values is equal to "inter_cor_supp".
+#' By default, the values is equal to `inter_cor_supp`.
 #' 
 #' @return A vector of removed nodes. Invisibly, structure of the created
-#' multiplex is saved to the "output_file".
+#' multiplex is saved to the `output_file`.
 #'
 #' @details 
-#' Function checks if all edge weights of "supplementary_layer" are positive.
-#' For negative weights of "correlation_layer", corresponding edge is removed
+#' Layers could previously be constructed using some of the functions 
+#' `meNet_cor`, `meNet_CGI` or `meNet_gene`.
+#' If layers are weighted, function searches for the edge attributes with
+#' names`"Cor"` and `"Dist"`. If the attribute doesn't exist, it takes the first
+#' edge attribute instead. The function handles weight of 
+#' the first layer as correlations and weights of the second layer as distances. 
+#'
+#' Function checks if all edge weights of `supplementary_layer` are positive.
+#' For negative weights of `correlation_layer`, corresponding edge is removed
 #' from both layers. In this step more power is given to significantly negative 
 #' correlations in community breakage.
 #' After the removal of negative edges, nodes which are isolated in both layers 
 #' are removed from the multiplex.
-#' Resulting multiplex strucutre is written to file either in the Infomap 
-#' \insertCite{infomap}{meNet} format or in the multinet 
-#' \insertCite{multinet}{meNet} format. Infomap-style file can be used by
-#' Infomap algorithm online or from the command line upon installation.
-#' multinet-style file can be converted to multinet object using
-#' "meNet::meMultiplex_to_multinet" function.
+#' 
+#' Additional parameters can be set, such as the weight of inter-layer edges.
+#' `inter_cor_supp` defines the weight of all inter-layer edges from the 
+#' correlation layer to the supplementary layer, while `inter_supp_cor` 
+#' defines the weight of all inter-layer edges from the supplementary
+#' layer to the correlation layer. By default, both values are `NULL`.
+#' If `NULL`, for `Infomap` output inter-layer edges are not added to file while
+#' for `multinet` output the type of network is defined as `multiplex` instead
+#' of `multilayer`.
+#' 
+#' If a layer is weighted, normalization function can be used on the
+#' edge weights. For correlation layer the default is maximum normalization using 
+#' `max_normalization` function. For supplementary layer, the default is
+#' negative maximum normalization with `neg_max_normalization`. The difference
+#' in normalization function exists because weights of correlation layer can be 
+#' interpreted as "strengths" while the weights of supplementary layer can be
+#' interpreted as "cost". That is, large correlation has opposite impact
+#' than the large distance for a pair of nodes.
+#' 
+#' Resulting multiplex structure is written to a file either in the `Infomap` 
+#' \insertCite{infomap}{meNet} format or in the `multinet` 
+#' \insertCite{multinet}{meNet} format, depending on the `output_type`.
+#' `Infomap`-style file can be used by `Infomap` algorithm online or from the 
+#' command line upon installation.
+#' `multinet`-style file can be converted to `multinet` object using
+#' `meMultiplex_to_multinet` function.
 #' 
 #' @references
 #'       \insertAllCited{}
@@ -58,12 +80,9 @@
 #' @import igraph
 #' 
 #' @export
-# saves the description in file
-# it searches attributes 'Cor'/'Dist', if not there it takes the first attribute of the graphs
-#'@export
 meMultiplex <- function(cor_layer, supplementary_layer, output_file, cor_weighted=TRUE, supp_weighted=TRUE,
                         cor_normalization_fun=meNet::max_normalization, supp_normalization_fun=meNet::neg_max_normalization, 
-                        output_type="infomap", inter_cor_supp=1, inter_supp_cor=inter_cor_supp){
+                        output_type="infomap", inter_cor_supp=NULL, inter_supp_cor=inter_cor_supp){
   if(!(output_type) %in% c("infomap", "multinet")){
     stop('"output_type" must be either "infomap" or "multinet".')
   }

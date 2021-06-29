@@ -1,19 +1,19 @@
-# Functions which check validity of input
+# Validity of input
 ################################################################################
 #' Checks if correlation matrix and data are correctly specified
 #'
 #' @description Function which checks whether provided correlation matrix and
 #' data frame with data are correctly specified. Only one of two parameters must
 #' be provided.
-#' If "data" is given, function makes sure it is non-empty data frame with no 
-#' NA values. For given "cor_matrix", function makes sure it is non-empty 
+#' If `data` is given, function makes sure it is non-empty data frame with no 
+#' NA values. For given `cor_matrix`, function makes sure it is non-empty 
 #' non-negative symmetric matrix.
 #' 
 #' @param cor_matrix Correlation matrix.
-#' @param data Data matrix. Correlation matrix is calculated with "cor(data)".
+#' @param data Data matrix. Correlation matrix is calculated with `cor(data)`.
 #' 
-#' @return List with correlation matrix and data. In case "data" is provided, 
-#' "cor_matrix" is calculated from "data" and given "cor_matrix" is ignored.
+#' @return List with correlation matrix and data. In case `data` is provided, 
+#' `cor_matrix` is calculated from `data` and given `cor_matrix` is ignored.
 #' 
 #' @noRd
 .check_corM_dataDF <- function(cor_matrix, data){
@@ -69,23 +69,22 @@
 
 
 
-#' Checks if cg_meta is correctly specified
+#' Validity of CpG description file
 #' 
-#' @description Function which checks whether provided data frame "cg_meta" is
+#' @description Function which checks whether provided data frame `cg_meta` is
 #' correctly specified.
-#' Function makes sure that "cg_meta" is data frame with all "cg_meta_cols" 
-#' columns and that all "necessary_cols" are names of elements in "cg_meta_cols".
-#' If "index_column" is given, function checks that column doesn't contain
-#' duplicates in "cg_meta".
-#'
+#' Function makes sure that `cg_meta` is data frame with all `cg_meta_cols` 
+#' columns and that all `necessary_cols` are names of elements in `cg_meta_cols`.
+#' If `index_column` is given, function checks that column doesn't contain
+#' duplicates in `cg_meta`.
 #' 
 #' @param cg_meta Data frame.
-#' @param cg_meta_cols Named list where elements are columns of "cg_meta".
+#' @param cg_meta_cols Named list where elements are columns of `cg_meta`.
 #' @param neccessary_cols Vector where elements are names of elements in
-#' "cg_meta_cols".
-#' @param index_column Name of index column in "cg_meta"
+#' `cg_meta_cols`.
+#' @param index_column Name of index column in `cg_meta`.
 #' 
-#' @return Returns "cg_meta" data frame. If "index_column" was provided, it is
+#' @return Returns `cg_meta` data frame. If `index_column` was provided, it is
 #' used as row names in the resulting data frame.
 #' 
 #' @noRd
@@ -126,16 +125,16 @@
 ################################################################################
 # Functions which take gene region and check whether it is "Promoter", "Body" or "3'UTR" region
 ################################################################################
-#' Checks the gene region
+#' Type of gene region
 #' 
 #' @description Function which takes a name of gene region and checks it the
-#' region is "Promoter", "Body" or "3'UTR". Known gene regions are:
-#' "TSS200", "TSS1500", "5'UTR", "1stExon", "Promoter".
+#' region is `"Promoter"`, `"Body"` or `"3'UTR"`. Known gene regions are:
+#' `"TSS200"`, `"TSS1500"`, `"5'UTR"`, `"1stExon"`, `"Promoter"`.
 #' 
 #' @param gene_region Name of gene region.
 #' 
-#' @return Type of gene region: "Promoter", "Body", "3'UTR" or "" for unknown
-#' region.
+#' @return Type of gene region: `"Promoter"`, `"Body"`, `"3'UTR"` or `""` for
+#' an unknown region.
 #' 
 #' @noRd
 .transform_one_gene_region <- function(gene_region){
@@ -152,12 +151,12 @@
 
 
 
-#' Checks the vector of gene regions
+#' Types of multiple gene regions
 #' 
 #' @description Function which takes a vector of gene region names and return
-#' their type without the repetition. Types of gene regions are "Promoter", 
-#' "Body" or "3'UTR". Known gene regions are: "TSS200", "TSS1500", "5'UTR", 
-#' "1stExon", "Promoter".
+#' their type without the repetition. Types of gene regions are `"Promoter"`, 
+#' `"Body"` or `"3'UTR"`. Known gene regions are: `"TSS200"`, `"TSS1500"`, 
+#' `"5'UTR"`, `"1stExon"`, `"Promoter"`.
 #' 
 #' @param gene_region vector of gene region names.
 #' 
@@ -183,18 +182,18 @@
 ################################################################################
 # Additional functions
 ################################################################################
-#' Intersects edges from two different "igraph" objects
+#' Edge intersection for two `igraph` objects
 #' 
-#' @description Function which uses object from the "igraph" package. For two
-#' graphs "g1" and "g2" and the corresponding subset of edges, "edgeL1" and
-#' "edgeL2", function returns the intersect of edges as subset of "g2" edges.
+#' @description Function which uses object from the `igraph` package. For two
+#' graphs `g1` and `g2` and the corresponding subset of edges, `edgeL1` and
+#' `edgeL2`, function returns the intersect of edges as subset of `g2` edges.
 #' 
 #' @param g1 First graph.
 #' @param g2 Second graph.
-#' @param edgeL1 List of "g1" edges to use. Default to all edges.
-#' @param edgeL2 List of "g2" edges to use. Default to all edges.
+#' @param edgeL1 List of `g1` edges to use. Default to all edges.
+#' @param edgeL2 List of `g2` edges to use. Default to all edges.
 #' 
-#' @return Subset of "g2" edges which are found both in "edgeL1" and "edgeL2"
+#' @return Subset of `g2` edges which are found both in `edgeL1` and `edgeL2`
 #' 
 #' @import igraph
 #' 
@@ -211,16 +210,16 @@
 
 
 
-#' Creates data frame with all pairs of elements
+#' All pairwise combinations of elements
 #'
 #' @description For a list of CpG sites, function returns data frame with all 
 #' pairwise combinations of them.
 #' 
 #' @param cg_list Vector of CpGs.
 #' @param col1_name Name of the first column in the resulting data frame.
-#' Defaults to "Node1".
+#' Defaults to `"Node1"`.
 #' @param col2_name Name of the second column in the resulting data frame.
-#' Defaults to "Node2".
+#' Defaults to `"Node2"`.
 #' 
 #' @return Data frame with two columns. In every row, first column contains one
 #' and the second column contains the other CpG in a pair. 
@@ -240,15 +239,15 @@
 
 
 
-#' Compares chromosome names for different version of a name: e.g. 2, chr2, CHR2, Chr2
-#'
+#' Equality of chromosomes
+#' 
 #' @description Checks if two chromosome names are the same taking into account 
-#' different naming conventions, e.g. "2", "chr2", "CHR2" and "Chr2".
+#' different naming conventions, e.g. `2`, `"chr2"`, `"CHR2"`, `"Chr2"`.
 #' 
 #' @param chr_v1 First name.
 #' @param chr_v2 Second name.
 #' 
-#' @return TRUE or FALSE depending whether two version of name describe the same
+#' @return `TRUE` or `FALSE` depending whether two version of name describe the same
 #' chromosome.
 #' 
 #' @details Function is slow when applied on large vector.
@@ -271,18 +270,18 @@
 
 
 
-#' Merges a list of words
+#' Creating sentence from words
 #'
 #' @description For a list of words, returns a single string of type 
-#' "word_1, word_2 and word_3". The conjuction "and" can be changed.
+#' `"word_1, word_2 and word_3"`. The conjuction `"and"` can be changed.
 #' 
 #' @param list_of_words Vector of words.
 #' @param conjuction Word used between the second last and the last word.
-#' Defaults to "and".
+#' Defaults to `"and"`.
 #' 
 #' @return String of merged words.
 #'
-#' @details Used by "".check_cgMeta_wCols" function.
+#' @details Used by `.check_cgMeta_wCols` function.
 #'
 #' @noRd
 .words_listing <- function(list_of_words, conjuction="and"){

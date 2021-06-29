@@ -1,65 +1,67 @@
-#' Builds a CpG network where edges are based on correlation
+#' CpG network: edges based on correlation
 #' 
 #' @description Different options are available to determine which correlations 
 #' are significant, such as a constant threshold for correlation, standard 
 #' deviation of bootstrapping or p-value of the permutation test. More than one 
 #' method can be used simultaneously. Significant correlations determine the 
 #' edged of the network.  For better explanation of the significant criteria, 
-#' read Details.
+#' read 'Details'.
 #' 
 #' @param cor_matrix Correlation matrix of CpG sites.
 #' @param data Data frame with CpGs in columns. Variables in rows are used to
-#' calculate "cor_matrix".
+#' calculate `cor_matrix`.
 #' @param cg_ids List of CpGs for which we reconstruct the network. If names of
-#' CpGs are given as "cor_matrix" or "data" column names, "cg_ids" defines a subset
+#' CpGs are given as `cor_matrix` or `data` column names, `cg_ids` defines a subset
 #' of CpGs which should be used in network. If omitted, all CpGs are used.
-#' If CpG names are not given, "cg_ids" is a mandatory parameter which gives 
+#' If CpG names are not given, `cg_ids` is a mandatory parameter which gives 
 #' the names of CpGs.
-#' @param cor_threshold Correlation threshold. Defaults to 0.2.
+#' @param cor_threshold Correlation threshold. Defaults to `0.2`.
 #' @param neg_cor_threshold Negative correlation threshold. This parameter is 
-#' ignored if "cor_threshold" is not given. Defaults to NULL.
+#' ignored if `cor_threshold` is not given. Defaults to `NULL`.
 #' @param cor_stDev Threshold for the standard deviation of correlation.
-#' Default to "cor_threshold"/3.
-#' @param cor_alpha Significance level applied to the correlation permutation
-#' test. Defaults to NULL.
+#' Default to `cor_threshold/3`.
+#' @param cor_alpha Significance level of the correlation permutation test. 
+#' Defaults to `NULL`.
 #' @param n_repetitions Number of repetitions for resampling and/or for the 
-#' correlation permutation test. Defaults to 100.
+#' correlation permutation test. Defaults to `100`.
 #' @param alternative Alternative hypothesis for the correlation permutation
-#' test. Default to "two_sided".
+#' test. Default to `"two_sided"`.
 #' @param normalization_function Normalization function applied to the weights
 #' of the edges. By default, no normalization is applied and weights correspond
 #' to correlation.
 #' 
-#' 
-#' @return Weighted network as igraph object with CpGs as nodes and edges
+#' @return Weighted network as `igraph` object with CpGs as nodes and edges
 #' representing significantly correlated pairs of CpGs. The weights of edges
 #' represent (possibly normalized) correlation.
 #' Isolated nodes are kept in the network.
 #' 
-#' @details A method for a significance of correlations is used if its parameters
+#' @details A method for a significance of correlations is used whenever its parameters
 #' are correctly specified. At the same time, more than one method can be used
 #' in which case only correlations which are significant according to all methods
 #' are kept.
-#' For a threshold method to be used, "cor_threshold" has to have a numeric value.
-#' Additionally, "neg_cor_threshold" can be specified. If only "cor_threshold"
-#' is given, correlations with absolute value larger than "cor_threshold" are 
-#' considered significant. If also "neg_cor_threshold" is given, correlations 
-#' smaller than "neg_cor_threshold" or larger than "cor_threshold" are 
+#' 
+#' For a threshold method to be used, `cor_threshold` has to have a numeric value.
+#' Additionally, `neg_cor_threshold` can be specified. If only `cor_threshold`
+#' is given, correlations with absolute value larger than `cor_threshold` are 
+#' considered significant. If also `neg_cor_threshold` is given, correlations 
+#' smaller than `neg_cor_threshold` or larger than `cor_threshold` are 
 #' considered significant. This allows different penalization of negative
 #' correlation values.
+#' 
 #' For a method based on standard deviation of bootstrapping to be used,
-#' "cor_stDev" has to have a numeric value, "data" has to be provided and 
-#' "n_repetitions" has to be correctly specified. Function
-#' "meNet::cor_resamplingStats" is called for "data" with subsample size equal
-#' to the number of rows in "data" and with replacement. Correlations for which
-#' the calculated standard deviation of resampling is smaller than "cor_stDev"
+#' `cor_stDev` has to have a numeric value, `data` has to be provided and 
+#' `n_repetitions` has to be correctly specified. Function
+#' `cor_resamplingStats` is called for `data` with subsample size equal
+#' to the number of rows in `data` and with replacement. Correlations for which
+#' the calculated standard deviation of resampling is smaller than `cor_stDev`
 #' are considered significant. This method tests variability of correlation.
-#' For a method based on the permutation test to be used, "cor_alpha" has to 
-#' have a numeric value, "data" has to be provided and parameters "n_repetitions"
-#' and "alternative" have to be correctly specified. Parameter "alternative" has 
-#' to have one of the values "less", "greater", "two_sided" or "two_sided_signed".
-#' Function "meNet::cor_permutationTest" is called for "data". Correlations for 
-#' which the p-value of the permutation test are smaller than "cor_alpha"
+#' 
+#' For a method based on the permutation test to be used, `cor_alpha` has to 
+#' have a numeric value, `data` has to be provided and parameters `n_repetitions`
+#' and `alternative` have to be correctly specified. Parameter `alternative` has 
+#' to have one of the values `"less"`, `"greater"`, `"two_sided"` or `"two_sided_signed"`.
+#' Function `cor_permutationTest` is called for `data`. Correlations for 
+#' which the p-value of the permutation test are smaller than `cor_alpha`
 #' are considered significant.
 #' 
 #' @import igraph

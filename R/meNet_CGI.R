@@ -1,14 +1,86 @@
-#' Builds a CpG network where edges are based on CpG island affiliation
+#' CpG network: edges are based on CpG island affiliation
 #'
-#' @description For every present CGI, function "singleCGI_meNet" is called and 
+#' @description For every present CGI, function "meNet_singleCGI" is called and 
 #' the resulting network is a union of the single-CGI networks. (Optional) 
 #' weights are chromosomal distances.
 #' 
-#' @param cor_layer
+#' @param cg_list Vector of CpG sites.
+#' @param cgi_list Vector of CpG islands.
+#' @param link_method Method used to determine the edges within each CGI 
+#' subnetwork. See details. Default value is `"twoLyr_clust"`.
+#' @param weighted Whether the resulting network is weighted. If `TRUE`,
+#' the weights are base pair distances between CpGs.
+#' Defaults to `TRUE`.
+#' @param cor_matrix Correlation matrix of CpG sites.
+#' @param data Data frame with CpGs in columns. Variables in rows are used to
+#' calculate `cor_matrix`.
+#' @param cor_normalization_fun Normalization function for the correlation
+#' layer of a CGI. Default method is `max_normalization` function.
+#' @param dist_normalization_fun Normalization function for the distance
+#' layer of a CGI. Default method is `neg_max_normalization` function.
+#' @param cor_threshold Correlation threshold. Defaults to `0.2`.
+#' @param neg_cor_threshold Negative correlation threshold. Defaults to `NULL`.
+#' @param cor_stDev Threshold for the standard deviation of correlation.
+#' Defaults to `NULL`.
+#' @param cor_alpha Significance level of the correlation permutation test.
+#' Defaults to `NULL`.
+#' @param n_repetitions Number of repetitions for resampling and/or for the 
+#' correlation permutation test. Defaults to `1000`.
+#' @param alternative Alternative hypothesis for the correlation permutation
+#' test. Default value is `"two_sided"`.
+#' @param infomap_call Path to the `Infomap` on user's system.
+#' Default value is `"infomap"`.
+#' @param folder Folder in which the files will be saved. It is automatically
+#' created if not already present. Default value is `"./meNet/"`.
+#' @param file_basename Base name of the created files.
+#' Default value is `"meNet_CGI_infomap"`. If `save_all_files` is `TRUE`, 
+#' its value changes for every CGI and becomes equal to name of the CGI.
+#' @param relaxation_rate `multilayer-relax-rate` parameter in `Infomap` call.
+#' Defaults to `0.15`.
+#' @param cg_meta Data frame which defines relationship between CpG sites and 
+#' CpG islands. It has CpGs in the rows and their description in the columns.
+#' If CpG is part of an CGI, `cg_meta` gives the name of the island and the region
+#' of an island in which the CpG is found. Additionally, if base pair distances
+#' are being calculated, `cg_meta` also holds chromosomal coordinate of CpGs.
+#' By default, function uses `CpG_anno450K` data frame which contains Illumina 
+#' Infinium HumanMethylation450 manifest file.
+#' @param cg_meta_cols Named list with `cg_meta` column names. The list must include:
+#' `cg_id` naming the column with unique CpG names, `island_name` naming the column 
+#' with CGI names and `island_region` naming the column with the CGI region in which
+#' the CpG is located. If base pair distances are being calculated, it should
+#' also include `cg_coord` naming the column with chromosomal coordinates.
+#' Default value shouldn't be changed if `cg_meta` keeps it default value.
+#' @param include_regions Regions of CGIs which should be searched for CpGs besides the 
+#' island itself. Can take any subset of values `"S_Shelf"`, `"S_Shore"`, 
+#' `"N_Shore"`, `"N_Shelf"`. By default, only the CpGs inside the island are reported.
+#' @param expand_cg_list Whether, for a CGI containing a CpG from `cg_list`,
+#' all CpGs should automatically be added to the network.
+#' Default to `FALSE`.
+#' @param normalization_fun Normalization function applied on the weights
+#' of the resulting network, if the network is weighted.
+#' @param save_all_files Whether all created files should be saved.
+#' Defaults to `FALSE`.
+#' @param delete_files Should created files be automatically deleted
+#' from the user's system.
+#' Defaults to `FALSE`. If `save_all_files` is `TRUE` then its value is 
+#' automatically changed to `FALSE.`
+#' Changing the parameter to `TRUE` should be done with caution 
+#' since it will allow the function to delete files from user's system.
 #' 
 #' @return 
 #' 
 #' @details 
+#' List of nodes can be given either as list of CpGs with parameter `cg_list` or
+#' as list of CpG islands with parameter `cgi_list`. In case both lists are
+#' given, union of nodes is used.
+#' 
+#' 
+#' Passed to meNet_singleCGI
+#' `link_method`, `weighted`, `cor_normalization_fun`, `dist_normalization`,
+#' `cor_threshold`, `neg_cor_threshold`, `cor_stDev`, `cor_alpha`, 
+#' `n_repetitions`, `alternative`, `infomap_call`, `folder`, `relaxation_rate`,
+#' `cg_meta`, `cg_meta_cols`, `include_regions`, `check_matrices`, `delete_files`
+#' 
 #' 
 #' @import igraph
 #' 
@@ -22,12 +94,14 @@
 # edge_method = "full", "clust", "twoLyr_clust" (if clustering with distance check infomap installation)
 # weights = "dist" or unweighted
 #'@export
-meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="twoLyr_clust",
-                      cor_matrix=NULL, data=NULL, cor_normalization_fun=max_normalization, dist_normalization_fun=neg_max_normalization,
-                      cor_threshold=0.2, neg_cor_threshold=NULL, cor_stDev=NULL, cor_alpha=NULL, n_repetitions=1000, alternative="two_sided",
+meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, link_method="twoLyr_clust", weighted=TRUE, cor_matrix=NULL, data=NULL, 
+                      cor_normalization_fun=max_normalization, dist_normalization_fun=neg_max_normalization,
+                      cor_threshold=0.2, neg_cor_threshold=NULL, cor_stDev=NULL, cor_alpha=NULL, n_repetitions=1000, 
+                      alternative="two_sided", 
                       infomap_call="infomap", folder="./meNet/", file_basename="meNet_CGI_infomap", relaxation_rate=0.15,
                       cg_meta=data("CpG_anno450K", package="meNet"), cg_meta_cols=list(cg_id="IlmnID", cg_coord="MAPINFO", island_name="UCSC_CpG_Islands_Name", island_region="Relation_to_UCSC_CpG_Island"),
-                      include_regions=character(0), expand_cg_list=FALSE, normalization_fun=NULL, save_all_files=FALSE, delete_files=FALSE){
+                      include_regions=character(0), expand_cg_list=FALSE, normalization_fun=NULL, 
+                      save_all_files=FALSE, delete_files=FALSE){
   #
   if(is.null(cg_list)&is.null(cgi_list)){
     stop('You must specify either "cg_list" or "cgi_list".')
@@ -80,7 +154,7 @@ meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="t
   if((length(cg_list)==0)&(length(cgi_list)==0)){
     return(make_empty_graph(n=0,directed=FALSE))
   }
-  # create nodes and edge data frame
+  # create node and edge data frame
   if(weighted){
     edge_df <- data.frame(matrix(nrow=0, ncol=3))
     colnames(edge_df) <- c("Node1", "Node2", "Dist")
@@ -114,7 +188,7 @@ meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="t
     }else{
       file_basename <- file_basename
     }
-    graphCGI <- singleCGI_meNet(cgi_list[i], cor_matrix=corM_i, data=dataM_i, link_method=link_method, weighted=weighted,
+    graphCGI <- meNet_singleCGI(cgi_list[i], link_method=link_method, weighted=weighted, cor_matrix=corM_i, data=dataM_i,
                                 cor_normalization_fun=cor_normalization_fun, dist_normalization_fun=dist_normalization_fun,
                                 cor_threshold=cor_threshold, neg_cor_threshold=neg_cor_threshold, cor_stDev=cor_stDev, cor_alpha=cor_alpha, n_repetitions=n_repetitions, alternative=alternative,
                                 infomap_call=infomap_call, folder=folder, file_basename=file_basename, relaxation_rate=relaxation_rate,
@@ -148,7 +222,7 @@ meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="t
     }else{
       file_basename <- file_basename
     }
-    graphCGI <- singleCGI_meNet(cgi_to_add[i], cor_matrix=corM_i, data=dataM_i, link_method=link_method, weighted=weighted,
+    graphCGI <- meNet_singleCGI(cgi_to_add[i], link_method=link_method, weighted=weighted, cor_matrix=corM_i, data=dataM_i,
                                 cor_normalization_fun=cor_normalization_fun, dist_normalization_fun=dist_normalization_fun,
                                 cor_threshold=cor_threshold, neg_cor_threshold=neg_cor_threshold, cor_stDev=cor_stDev, cor_alpha=cor_alpha, n_repetitions=n_repetitions, alternative=alternative,
                                 infomap_call=infomap_call, folder=folder, file_basename=file_basename, relaxation_rate=relaxation_rate,
@@ -186,44 +260,4 @@ meNet_CGI <- function(cg_list=NULL, cgi_list=NULL, weighted=TRUE, link_method="t
   return(graph)
 }
 
-
-#######################################################################
-# CpG GENOMICS LAYER
-#######################################################################
-.transform_one_gene_region <- function(gene_region){
-  if(gene_region %in% c("TSS200", "TSS1500", "5'UTR", "1stExon", "Promoter")){
-    return("Promoter")
-  }else if(gene_region=="Body"){
-    return(gene_region)
-  }else if(gene_region=="3'UTR"){
-    return(gene_region)
-  }else{
-    return("")
-  }
-}
-
-.transform_gene_region <- function(gene_region){
-  if(length(gene_region)>1){
-    gene_region <- sapply(gene_region, .transform_one_gene_region)
-    gene_region <- unique(gene_region)
-    if(length(gene_region)==1){
-      gene_region <- gene_region[1]
-    }else{
-      return(paste(gene_region,collapse=","))
-    }
-  }
-  return(.transform_one_gene_region(gene_region))
-}
-
-.clrs_for_region <- function(gene_region){
-  if(gene_region=="Promoter"){
-    return("cadetblue3")
-  }else if(gene_region=="Body"){
-    return("gold")
-  }else if(gene_region=="3'UTR"){
-    return("yellowgreen")
-  }else{
-    return("gray50")
-  }
-}
 

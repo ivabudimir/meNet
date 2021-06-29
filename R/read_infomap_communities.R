@@ -1,40 +1,45 @@
-#' Reads Infomap community structure for multiplex from files
+#' Multiplex community structure from file
 #' 
-#' @description For 2-layer multiplex with Infomap-style structure written to 
-#' file and Infomap output file with the communities, this function
-#' returns data frame with nodes and their corresponding community.
-#' The first file can be obtained with "meNet::meMultiplex" function with the
-#' output type set to "Infomap". The second file is a result of Infomap 
-#' algorithm for community detection. For futher explanation, see details.
+#' @description 
+#' Reads `Infomap` community structure for multiplex from two files.
+#' The first file contains `Infomap`-style multiplex structure and the second
+#' file is an output from the `Infomap` algorithm containing the communities.
+#' Function his returns data frame with nodes and their corresponding community.
 #' 
-#' @param multiplex_file File with the Infomap structure of the multiplex.
+#' @param multiplex_file File with the `Infomap` structure of the multiplex.
 #' @param clu_file File with the communities obtained as output of the 
-#' Infomap algorithm.
-#' @param physical_nodes Whether the "clu_file" contains physical of state
-#' nodes. Default to FALSE.
+#' `Infomap` algorithm.
+#' @param physical_nodes Whether the `clu_file` contains physical of state
+#' nodes. Default to `FALSE`.
 #' @param layer The layer from which the community structure is obtained.
-#' Only used if "clu_file" contains state nodes.
+#' Only used if `clu_file` contains state nodes.
 #' 
 #' @return Data frame with two columns. The first column contains names of nodes
-#' and the second column contains corresponding Infomap community.
+#' and the second column contains corresponding `Infomap` community.
 #' 
-#' @details Infomap algorithm finds community structure of multiplex using
-#' "multiplex_file" file and outputs it in "clu_file". This function unites the
-#' two files in one tidy data frame with multiplex nodes and their community.
-#' Infomap returns two different types of communities, communities based on 
+#' @details 
+#' The first file can be obtained with `meMultiplex` function with the
+#' output type set to `"Infomap"`. The second file is a result of `Infomap` 
+#' algorithm for community detection.
+#' `Infomap` algorithm finds community structure of the multiplex using
+#' `multiplex_file` and outputs it in `clu_file`. 
+#' This function unites the two files in one tidy data frame with multiplex 
+#' nodes and their corresponding community.
+#' 
+#' `Infomap` returns two different types of communities, communities based on 
 #' physical nodes (normal nodes) and communities based on state nodes. State 
-#' nodes are abstract nodes created by Infomap to label physical nodes which 
-#' exist in multiple layers. So for a physical node which is shared between two 
-#' layers, two state nodes are created. Thus community structure for the state 
-#' nodes in fact consists of two community structures, one existing in each layer 
+#' nodes are abstract nodes created by `Infomap` to label physical nodes which 
+#' exist in multiple layers. For example, for a physical node which is shared 
+#' between two layers, two state nodes are created. Thus community structure of 
+#' the state nodes contains two community structures, one existing in each layer 
 #' of multiplex and both od them influenced by the whole multiplex structure.
-#' If "physical_nodes" is FALSE, "clu_file" must contain state node output.
-#' In this case "layer" must be specified and the community structure is taken
+#' If `physical_nodes` is `FALSE`, `clu_file` must contain state node output.
+#' In this case `layer` must be specified and the community structure is taken
 #' from that layer.
-#' If "physcal_nodes" is TRUE, "clu_file" must contain physical node output.
-#' This output overlaps two state node community structures and thus the same
-#' physical node can exist in multiple communities.
-#' For more information, visit Infomap website \insertCite{infomap}{meNet}.
+#' If `physcal_nodes` is `TRUE`, `clu_file` must contain physical node output.
+#' This output overlaps two state node community structures existing in different
+#' layers and thus the same physical node can exist in multiple communities.
+#' For more information, visit `Infomap` website \insertCite{infomap}{meNet}.
 #' 
 #' @references
 #'       \insertAllCited{}

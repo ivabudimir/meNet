@@ -1,20 +1,21 @@
-#' Sorts list of CpG sites based on their coordinate
+#' Sorting CpGs by coordinate
 #' 
-#' @description For a given vector of CpG sites, the function sorts them based
-#' on their location. All CpGs are firstly sorted by the chromosome and then
-#' by the position on the chromosome. If working with Illumina Infinium
-#' HM450K, 'cg_meta' and 'cg_meta_cols' parameters should keep their default values.
+#' @description Sorts vector of CpG sites based on their location. 
+#' All CpGs are firstly sorted by the chromosome and then
+#' by the position on the chromosome. 
+#' If working with Illumina Infinium HM450K, `cg_meta` and `cg_meta_cols` 
+#' parameters should keep their default values.
 #' 
 #' @param cg_list Vector of CpG sites.
 #' @param cg_meta Data frame with CpGs in the rows and their location in the 
-#' columns. The columns of "cg_meta" should include CpG IDs, corresponding 
+#' columns. The columns of `cg_meta` should include CpG IDs, corresponding 
 #' chromosome and coordinate.
-#' By default, function uses "CpG_anno450K" data frame which contains Illumina 
+#' By default, function uses `CpG_anno450K` data frame which contains Illumina 
 #' Infinium HumanMethylation450 manifest file.
-#' @param cg_meta_cols Named list with 'cg_meta' column names. The list must include:
-#' 'cg_id' naming the column with unique CpG names, 'cg_chr' naming the column 
-#' with chromosomes and 'cg_coord' naming the column with coordinates.
-#' Default value shouldn't be changed if 'cg_meta' keeps it default value.
+#' @param cg_meta_cols Named list with `cg_meta` column names. The list must include:
+#' `cg_id` naming the column with unique CpG names, `cg_chr` naming the column 
+#' with chromosomes and `cg_coord` naming the column with coordinates.
+#' Default value shouldn't be changed if `cg_meta` keeps it default value.
 #' 
 #' @return Sorted vector of CpGs.
 #' 

@@ -1,23 +1,23 @@
-#' Calculates the mean and standard deviation for correlation by random resampling
+#' Mean and standard deviation of correlation
 #'
 #' @description For the given data matrix, the mean and standard deviation of correlation are 
 #' calculated for every pair of variables. The mean and standard deviation are calculated
 #' based on correlation values obtained after random subsampling.
 #'
-#' @params data Data matrix or data frame with samples in rows and variables in columns.
-#' @params size_of_subsample Size of subsample taken in every repetition.
-#' @params replace Defines whether the resampling is done with replacement. Defaults to FALSE.
-#' @params n_repetitions Number of repetitions of subsampling. For large 'data' matrices, large
+#' @param data Data matrix or data frame with samples in rows and variables in columns.
+#' @param size_of_subsample Size of subsample taken in every repetition.
+#' @param replace Defines whether the resampling is done with replacement. Defaults to `FALSE`.
+#' @param n_repetitions Number of repetitions of subsampling. For large `data` matrices, large
 #' number of repetitions can take a long time.
-#' @params zero_precisionC The zero precision passed to the C++ function. All numbers with absolute
-#' value smaller than 'zero_precisionC' will be set to zero. Defaults to 10^(-6).
+#' @param zero_precisionC The zero precision passed to the C++ function. All numbers with absolute
+#' value smaller than `zero_precisionC` will be set to zero. Defaults to 10^(-6).
 #'
 #' @return A data frame with names of variables in first two columns. In third columns is mean
 #' and in the fourth column is standard deviation for the given pair of variables. In the rows, 
 #' all pairwise correlations are listed.
 #'
-#' @details For 'n_repetitions' times, a random subsample is taken based on parameters 
-#' 'size_of_subsample' and 'replace'. Then for every pair of variables a correlation is calculated
+#' @details For `n_repetitions` times, a random subsample is taken based on parameters 
+#' `size_of_subsample` and `replace`. Then for every pair of variables a correlation is calculated
 #' for a random subsample. At the end of repetitions, the mean and standard deviation of correlation
 #' are calculated for every pair of variables.
 #'
