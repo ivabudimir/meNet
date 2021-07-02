@@ -23,13 +23,13 @@
 #' "true" correlation. Significance is determined based on the `alternative` parameter.
 #' If the `alternative` is
 #' \itemize{
-#'    \item{`"less"`}{We count number of times "permuted" correlation is smaller 
+#'    \item{`"less"`}{: we count number of times "permuted" correlation is smaller 
 #'    than the "true" correlation.}
-#'    \item{`"greater"`}{We count number of times "permuted" correlation 
+#'    \item{`"greater"`}{: we count number of times "permuted" correlation 
 #'    is greater than the "true" correlation.}
-#'    \item{`"two_sided"`}{We count number of times absolute value of "permuted" 
+#'    \item{`"two_sided"`}{: we count number of times absolute value of "permuted" 
 #'    correlation is greater than the absolute value of the "true" correlation.}
-#'    \item{`"two_sided_signed"`}{We count when "permuted" correlation is greater 
+#'    \item{`"two_sided_signed"`}{: we count when "permuted" correlation is greater 
 #'    than the "true" correlation for positive "true" correlation or when "permuted" 
 #'    correlation is smaller than the "true" correlation for negative "true" correlation.}
 #' }
@@ -37,13 +37,13 @@
 #' @export
 cor_permutationTest <- function(data, n_repetitions=100, alternative="two_sided", zero_precisionC=0.000001){
   if(!is.character(alternative)){
-    stop(paste0("'alternative'",' must have one of the values "less", "greater", "two_sided" or "two_sided_signed".'))
+    stop('"alternative" must have one of the values "less", "greater", "two_sided" or "two_sided_signed".')
   }
   if(!(alternative %in% c("less", "greater", "two_sided", "two_sided_signed"))){
-    stop(paste0("'alternative'",' must have one of the values "less", "greater", "two_sided" or "two_sided_signed".'))
+    stop('"alternative" must have one of the values "less", "greater", "two_sided" or "two_sided_signed".')
   }
   if(!inherits(data,"matrix")&!inherits(data,"data.frame")){
-    stop("'data' must be either matrix or data frame.")
+    stop('"data" must be either matrix or data frame.')
   }
   if(is.null(colnames(data))){
     variable_names <- 1:ncol(data)
@@ -52,10 +52,10 @@ cor_permutationTest <- function(data, n_repetitions=100, alternative="two_sided"
   }
   data <- as.matrix(data)
   if(any(is.na(data))){
-    stop("NA values in 'data' are not allowed.")
+    stop('NA values in "data" are not allowed.')
   }
   if(!all(is.numeric(data))){
-    stop("Values in 'data' must be numeric.")
+    stop('Values in "data" must be numeric.')
   }
   #
   cor_pval <- cor_prTest(data, n_repetitions, alternative, zero_precisionC)

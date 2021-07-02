@@ -24,7 +24,7 @@
 #'@export
 cor_resamplingStats <- function(data, size_of_subsample, replace=FALSE, n_repetitions=100, zero_precisionC=0.000001){
   if(!inherits(data,"matrix")&!inherits(data,"data.frame")){
-    stop("'data' must be either matrix or data frame.")
+    stop('"data" must be either matrix or data frame.')
   }
   if(is.null(colnames(data))){
     variable_names <- 1:ncol(data)
@@ -33,10 +33,10 @@ cor_resamplingStats <- function(data, size_of_subsample, replace=FALSE, n_repeti
   }
   data <- as.matrix(data)
   if(any(is.na(data))){
-    stop("NA values in 'data' are not allowed.")
+    stop('NA values in "data" are not allowed.')
   }
   if(!all(is.numeric(data))){
-    stop("Values in 'data' must be numeric.")
+    stop('Values in "data" must be numeric.')
   }
   #
   cor_summary <- cor_meanSd(data, size_of_subsample, replace, n_repetitions, zero_precisionC)
