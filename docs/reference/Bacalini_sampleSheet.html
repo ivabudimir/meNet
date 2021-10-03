@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Correlation permutation test — cor_permutationTest • meNet</title>
+<title>Bacalini sample sheet — Bacalini_sampleSheet • meNet</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,15 @@
 
 
 
-<meta property="og:title" content="Correlation permutation test — cor_permutationTest" />
-<meta property="og:description" content="For the given data matrix, the permutation test of correlation is calculated
-for every pair of variables." />
+<meta property="og:title" content="Bacalini sample sheet — Bacalini_sampleSheet" />
+<meta property="og:description" content="Description file for samples in Bacalini data set (Bacalini et al. 2015)
+.
+87 samples have a family-based structure with a Down syndrome patient, a mother
+and one unaffected sibling coming from each of 29 included families. Thus, each
+sample belongs to one of three groups: Down syndrome patients (DSP), Down
+syndrome mothers (DSM) or Down syndrome siblings (DSS). `meNet::Bacalini_sampleSheet`
+is a subset of the original sample sheet which includes more details for every
+samples." />
 
 
 
@@ -122,71 +128,43 @@ for every pair of variables." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Correlation permutation test</h1>
+    <h1>Bacalini sample sheet</h1>
     
-    <div class="hidden name"><code>cor_permutationTest.Rd</code></div>
+    <div class="hidden name"><code>Bacalini_sampleSheet.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>For the given data matrix, the permutation test of correlation is calculated
-for every pair of variables.</p>
+    <p>Description file for samples in Bacalini data set (Bacalini et al. 2015)
+.
+87 samples have a family-based structure with a Down syndrome patient, a mother
+and one unaffected sibling coming from each of 29 included families. Thus, each
+sample belongs to one of three groups: Down syndrome patients (DSP), Down
+syndrome mothers (DSM) or Down syndrome siblings (DSS). `meNet::Bacalini_sampleSheet`
+is a subset of the original sample sheet which includes more details for every
+samples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cor_permutationTest</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  n_repetitions <span class='op'>=</span> <span class='fl'>100</span>,
-  alternative <span class='op'>=</span> <span class='st'>"two_sided"</span>,
-  zero_precisionC <span class='op'>=</span> <span class='fl'>1e-06</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>Bacalini_sampleSheet</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>data</th>
-      <td><p>Data matrix or data frame with samples in rows and variables in columns.</p></td>
-    </tr>
-    <tr>
-      <th>n_repetitions</th>
-      <td><p>Number of repetitions of subsampling. For large `data` matrices, large
-number of repetitions can take a long time.</p></td>
-    </tr>
-    <tr>
-      <th>alternative</th>
-      <td><p>Alternative hypothesis for the permutation test. Takes one of the values: 
-`"less"`, `"greater"`, `"two_sided"` or `"two_sided_signed"`. See details.</p></td>
-    </tr>
-    <tr>
-      <th>zero_precisionC</th>
-      <td><p>The zero precision passed to the C++ function. All numbers with absolute
-value smaller than `zero_precisionC` will be set to zero. Defaults to 10^(-6).</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with names of variables in first two columns and p-value of correlation
-test between the two variables in the third column. In the rows, all pairwise correlations are 
-listed.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>A data frame with 87 rows and columns:</p><dl>
+   <dt>gsm</dt><dd><p>Unique identifier for every sample.</p></dd>
+   <dt>Group</dt><dd><p>A group to which the sample belongs. One of DSP, DSM or DSS.</p></dd>
 
-    <p>For every pair of variables, for `n_repetitions` times, a permutation of the samples is 
-randomly chosen and the correlation between the original samples for variable i and permuted 
-samples for variable j is calculated and compared to the true correlation coefficient. The p-value
-is obtained as percentage of times when the "permuted" correlation was more significant that the
-"true" correlation. Significance is determined based on the `alternative` parameter.
-If the `alternative` is</p><ul>
-<li><p>`"less"`: we count number of times "permuted" correlation is smaller 
-   than the "true" correlation.</p></li>
-<li><p>`"greater"`: we count number of times "permuted" correlation 
-   is greater than the "true" correlation.</p></li>
-<li><p>`"two_sided"`: we count number of times absolute value of "permuted" 
-   correlation is greater than the absolute value of the "true" correlation.</p></li>
-<li><p>`"two_sided_signed"`: we count when "permuted" correlation is greater 
-   than the "true" correlation for positive "true" correlation or when "permuted" 
-   correlation is smaller than the "true" correlation for negative "true" correlation.</p></li>
-</ul>
+</dl>
 
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Original sample sheet was downloaded from the Gene Expression Omnibus (GEO)
+data repository as part of the data set with accession number GSE52588
+<a href='https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52588'>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52588</a>.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Bacalini MG, Gentilini D, Boattini A, Giampieri E, Pirazzini C, Giuliani C, Fontanesi E, Scurti M, Remondini D, Capri M, others (2015).
+&#8220;Identification of a DNA methylation signature in blood cells from persons with Down Syndrome.&#8221;
+<em>Aging (Albany NY)</em>, <b>7</b>(2), 82.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

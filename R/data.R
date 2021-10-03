@@ -115,3 +115,78 @@
 #'
 #' @source \url{http://genome.ucsc.edu/cgi-bin/hgTables}
 "UCSC_genes"
+
+
+
+#' Bacalini HM450K methylation data
+#'
+#' Beta values measured by Illumina HM450K microarray for 87 samples obtained by
+#' Bacalini et al. \insertCite{bacalini2015identification}{meNet}. Data set has
+#' family-based structure with the aim to study the effect of Down syndrome on 
+#' the methylation signature. 29 Down syndrome patients were included in the study
+#' together with a mother and one unaffected sibling. `meNet::Bacalini_betaValues`
+#' data frame is a subset of the original data set with only 1000 CpG sites
+#' from chromosome 21.
+#' 
+#' @format A data frame with 1000 rows and 87 columns. Row names are unique CpG
+#' identifiers from the Illumina CG database. Column names are unique sample
+#' identifiers further described in `meNet::Bacalini_sampleSheet`.
+#'
+#' @source Original data set was downloaded from the Gene Expression Omnibus (GEO)
+#' data repository as a data set with accession number GSE52588
+#' \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52588}.
+#' 
+#' @references
+#'       \insertAllCited{}
+#'       
+"Bacalini_betaValues"
+
+
+
+#' Bacalini sample sheet
+#' 
+#' Description file for samples in Bacalini data set \insertCite{bacalini2015identification}{meNet}.
+#' 87 samples have a family-based structure with a Down syndrome patient, a mother
+#' and one unaffected sibling coming from each of 29 included families. Thus, each
+#' sample belongs to one of three groups: Down syndrome patients (DSP), Down
+#' syndrome mothers (DSM) or Down syndrome siblings (DSS). `meNet::Bacalini_sampleSheet`
+#' is a subset of the original sample sheet which includes more details for every
+#' samples.
+#' 
+#' @format A data frame with 87 rows and columns:
+#' \describe{
+#'    \item{gsm}{Unique identifier for every sample.}
+#'    \item{Group}{A group to which the sample belongs. One of DSP, DSM or DSS.}
+#' }
+#'
+#' @source Original sample sheet was downloaded from the Gene Expression Omnibus (GEO)
+#' data repository as part of the data set with accession number GSE52588
+#' \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52588}.
+#' 
+#' @references
+#'       \insertAllCited{}
+#'       
+"Bacalini_sampleSheet"
+
+
+
+#' Johansson HM450K methylation data
+#'
+#' Methylation values based on the data set obtained by Johansson et al.
+#' \insertCite{johansson2013continuous}{meNet}. Methylation beta values for 728
+#' healthy samples were obtained with Illumina HM450K microarray. In the step of
+#' data preparation and preprocessing, problematic CpGs were removed and the
+#' original beta values were adjusted for age, sex and cell counts.
+#' `meNet::Johansson_residuals` data frame contains the residuals of the 
+#' preprocessing for 1000 CpG sites from chromosome 21.
+#'
+#' @format A data frame with 1000 rows and 728 columns. Row names are unique CpG
+#' identifiers from the Illumina CG database.
+#' 
+#' @source Original data set was downloaded from the Gene Expression Omnibus (GEO)
+#' data repository as a data set with accession number GSE87571
+#' \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE87571}.
+#' 
+#' @references
+#'       \insertAllCited{}
+"Johansson_residuals"

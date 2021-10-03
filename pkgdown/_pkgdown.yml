@@ -15,7 +15,7 @@ reference:
   - meNet_singleCGI
   - meNet_CGI
   - meNet_singleGene
-  - meNet_gene
+  - meNet_genep
   - meMultiplex
   - meMultiplex_communities
   - meMultiplex_to_multinet
@@ -30,7 +30,7 @@ reference:
   contents:
   - plotCI_meCpG
   - plotCI_meCGI
-- subtitle: Other functions
+- subtitle: Other Functions
   desc: Secondary functions mostly called from the main functions.
   contents:
   - boxed_heatmap
@@ -41,12 +41,17 @@ reference:
   - max_normalization
   - neg_max_normalization
 - title: Data
-  desc:
+- subtitle: Description Tables
+  desc: Data frames that contain information about methylation and genomic data.
   contents:
   - CpG_anno450K
   - CpG_genes
   - UCSC_CGI
   - UCSC_genes
   - N_ranges
-  
-  
+- subtitle: Methylation Data
+  desc: Examples of methylation data set to be used to test the functionalities of the package.
+  contents:
+  - Bacalini_betaValues
+  - Bacalini_sampleSheet
+  - Johansson_residuals
