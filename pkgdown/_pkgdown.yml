@@ -15,13 +15,13 @@ reference:
   - meNet_singleCGI
   - meNet_CGI
   - meNet_singleGene
-  - meNet_genep
+  - meNet_gene
   - meMultiplex
   - meMultiplex_communities
   - meMultiplex_to_multinet
   - plot_multiplex
 - subtitle: Resampling Functions 
-  desc: Functions which estimate the variability of correlation and calculte p-value  of the correlation permutation test.
+  desc: Functions which estimate the variability of correlation and calculte p-value of the correlation permutation test.
   contents:
   - cor_resamplingStats
   - cor_permutationTest
@@ -44,7 +44,7 @@ reference:
 - subtitle: Description Tables
   desc: Data frames that contain information about methylation and genomic data.
   contents:
-  - CpG_anno450K
+  - CpG_annoHM450K
   - CpG_genes
   - UCSC_CGI
   - UCSC_genes

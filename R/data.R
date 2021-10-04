@@ -45,7 +45,7 @@
 #'
 #'@source \url{https://support.illumina.com/downloads/humanmethylation450_15017482_v1-2_product_files.html}
 #'
-"CpG_anno450K"
+"CpG_annoHM450K"
 
 
 
