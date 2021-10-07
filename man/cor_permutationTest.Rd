@@ -40,13 +40,13 @@ is obtained as percentage of times when the "permuted" correlation was more sign
 "true" correlation. Significance is determined based on the `alternative` parameter.
 If the `alternative` is
 \itemize{
-   \item{`"less"`}{We count number of times "permuted" correlation is smaller 
+   \item{`"less"`}{: we count number of times "permuted" correlation is smaller 
    than the "true" correlation.}
-   \item{`"greater"`}{We count number of times "permuted" correlation 
+   \item{`"greater"`}{: we count number of times "permuted" correlation 
    is greater than the "true" correlation.}
-   \item{`"two_sided"`}{We count number of times absolute value of "permuted" 
+   \item{`"two_sided"`}{: we count number of times absolute value of "permuted" 
    correlation is greater than the absolute value of the "true" correlation.}
-   \item{`"two_sided_signed"`}{We count when "permuted" correlation is greater 
+   \item{`"two_sided_signed"`}{: we count when "permuted" correlation is greater 
    than the "true" correlation for positive "true" correlation or when "permuted" 
    correlation is smaller than the "true" correlation for negative "true" correlation.}
 }

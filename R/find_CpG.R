@@ -18,8 +18,6 @@
 #' 
 #' @references
 #'       \insertAllCited{}
-#' 
-#' @import BSgenome.Hsapiens.UCSC.hg19
 #'
 #' @export
 find_CpG <- function(chromosome, min_coord=NULL, max_coord=NULL){
@@ -37,7 +35,7 @@ find_CpG <- function(chromosome, min_coord=NULL, max_coord=NULL){
     stop('"max_coord" must be a number.')
   }
   
-  coordinates <- start(matchPattern('CG', Hsapiens[[chromosome]]))
+  coordinates <- IRanges::start(Biostrings::matchPattern('CG', BSgenome.Hsapiens.UCSC.hg19::Hsapiens[[chromosome]]))
   
   if(!is.null(min_coord)){
     coordinates <- coordinates[coordinates >= min_coord]

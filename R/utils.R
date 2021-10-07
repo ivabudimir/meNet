@@ -294,3 +294,28 @@
     return(paste(paste(list_of_words[1:(n_words-1)],collapse=", "),list_of_words[n_words],sep=paste0(" ",conjuction," ")))
   }
 }
+
+
+#' Check validity of colors
+#'
+#' @description For a list of colors, function checks if given colors are well 
+#' defined in R environment.
+#' 
+#' @param x Vector of colors.
+#' 
+#' @return Boolean vector.
+#'
+#' @details Uses `col2rgb` function with `alpha=TRUE`.
+#'
+#' @noRd
+.is_color <- function(x){
+  # we don't allow a data frame of colors
+  if(is.data.frame(x)){
+    return(FALSE)
+  }
+  
+  sapply(x, function(X) {
+    tryCatch(is.matrix(col2rgb(X, alpha=TRUE)), 
+             error = function(e) FALSE)}, USE.NAMES=FALSE)
+  
+}
