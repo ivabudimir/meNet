@@ -7,7 +7,7 @@
 \format{
 A data frame with 87 rows and columns:
 \describe{
-   \item{gsm}{Unique identifier for every sample.}
+   \item{GSM}{Unique identifier for every sample.}
    \item{Group}{A group to which the sample belongs. One of DSP, DSM or DSS.}
 }
 }

@@ -125,12 +125,17 @@
 #' family-based structure with the aim to study the effect of Down syndrome on 
 #' the methylation signature. 29 Down syndrome patients were included in the study
 #' together with a mother and one unaffected sibling. `meNet::Bacalini_betaValues`
-#' data frame is a subset of the original data set with only 1000 CpG sites
+#' data frame is a subset of the original data set containing CpG sites
 #' from chromosome 21.
 #' 
-#' @format A data frame with 1000 rows and 87 columns. Row names are unique CpG
+#' @format A data frame with 3536 rows and 87 columns. Row names are unique CpG
 #' identifiers from the Illumina CG database. Column names are unique sample
 #' identifiers further described in `meNet::Bacalini_sampleSheet`.
+#' 
+#' @details Some CpG sites from chromosome 21 are not included. They may be 
+#' omitted in the original data set or removed due to bad performance. 
+#' Moreover, CpG sites are the same as in the `meNet::Johansson_residuals` 
+#' data set and thus only the intersection of measured CpGs remains.
 #'
 #' @source Original data set was downloaded from the Gene Expression Omnibus (GEO)
 #' data repository as a data set with accession number GSE52588
@@ -155,7 +160,7 @@
 #' 
 #' @format A data frame with 87 rows and columns:
 #' \describe{
-#'    \item{gsm}{Unique identifier for every sample.}
+#'    \item{GSM}{Unique identifier for every sample.}
 #'    \item{Group}{A group to which the sample belongs. One of DSP, DSM or DSS.}
 #' }
 #'
@@ -178,10 +183,15 @@
 #' data preparation and preprocessing, problematic CpGs were removed and the
 #' original beta values were adjusted for age, sex and cell counts.
 #' `meNet::Johansson_residuals` data frame contains the residuals of the 
-#' preprocessing for 1000 CpG sites from chromosome 21.
+#' preprocessing analysis for chromosome 21.
 #'
-#' @format A data frame with 1000 rows and 728 columns. Row names are unique CpG
+#' @format A data frame with 3536 rows and 728 columns. Row names are unique CpG
 #' identifiers from the Illumina CG database.
+#' 
+#' @details Some CpG sites from chromosome 21 are not included. They may be 
+#' omitted in the original data set or removed during the preprocessing. 
+#' Moreover, CpG sites are the same as in the  `meNet::Bacalini_betaValues`
+#' data set and thus only the intersection of measured CpGs remains.
 #' 
 #' @source Original data set was downloaded from the Gene Expression Omnibus (GEO)
 #' data repository as a data set with accession number GSE87571

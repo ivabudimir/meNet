@@ -47,7 +47,7 @@ healthy samples were obtained with Illumina HM450K microarray. In the step of
 data preparation and preprocessing, problematic CpGs were removed and the
 original beta values were adjusted for age, sex and cell counts.
 `meNet::Johansson_residuals` data frame contains the residuals of the 
-preprocessing for 1000 CpG sites from chromosome 21." />
+preprocessing analysis for chromosome 21." />
 
 
 
@@ -141,7 +141,7 @@ healthy samples were obtained with Illumina HM450K microarray. In the step of
 data preparation and preprocessing, problematic CpGs were removed and the
 original beta values were adjusted for age, sex and cell counts.
 `meNet::Johansson_residuals` data frame contains the residuals of the 
-preprocessing for 1000 CpG sites from chromosome 21.</p>
+preprocessing analysis for chromosome 21.</p>
     </div>
 
     <pre class="usage"><span class='va'>Johansson_residuals</span></pre>
@@ -149,13 +149,19 @@ preprocessing for 1000 CpG sites from chromosome 21.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 1000 rows and 728 columns. Row names are unique CpG
+    <p>A data frame with 3536 rows and 728 columns. Row names are unique CpG
 identifiers from the Illumina CG database.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p>Original data set was downloaded from the Gene Expression Omnibus (GEO)
 data repository as a data set with accession number GSE87571
 <a href='https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE87571'>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE87571</a>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Some CpG sites from chromosome 21 are not included. They may be 
+omitted in the original data set or removed during the preprocessing. 
+Moreover, CpG sites are the same as in the  `meNet::Bacalini_betaValues`
+data set and thus only the intersection of measured CpGs remains.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Johansson \, Enroth S, Gyllensten U (2013).

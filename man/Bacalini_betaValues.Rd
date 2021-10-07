@@ -5,7 +5,7 @@
 \alias{Bacalini_betaValues}
 \title{Bacalini HM450K methylation data}
 \format{
-A data frame with 1000 rows and 87 columns. Row names are unique CpG
+A data frame with 3536 rows and 87 columns. Row names are unique CpG
 identifiers from the Illumina CG database. Column names are unique sample
 identifiers further described in `meNet::Bacalini_sampleSheet`.
 }
@@ -23,8 +23,14 @@ Bacalini et al. \insertCite{bacalini2015identification}{meNet}. Data set has
 family-based structure with the aim to study the effect of Down syndrome on 
 the methylation signature. 29 Down syndrome patients were included in the study
 together with a mother and one unaffected sibling. `meNet::Bacalini_betaValues`
-data frame is a subset of the original data set with only 1000 CpG sites
+data frame is a subset of the original data set containing CpG sites
 from chromosome 21.
+}
+\details{
+Some CpG sites from chromosome 21 are not included. They may be 
+omitted in the original data set or removed due to bad performance. 
+Moreover, CpG sites are the same as in the `meNet::Johansson_residuals` 
+data set and thus only the intersection of measured CpGs remains.
 }
 \references{
 \insertAllCited{}

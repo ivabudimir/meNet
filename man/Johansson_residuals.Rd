@@ -5,7 +5,7 @@
 \alias{Johansson_residuals}
 \title{Johansson HM450K methylation data}
 \format{
-A data frame with 1000 rows and 728 columns. Row names are unique CpG
+A data frame with 3536 rows and 728 columns. Row names are unique CpG
 identifiers from the Illumina CG database.
 }
 \source{
@@ -23,7 +23,13 @@ healthy samples were obtained with Illumina HM450K microarray. In the step of
 data preparation and preprocessing, problematic CpGs were removed and the
 original beta values were adjusted for age, sex and cell counts.
 `meNet::Johansson_residuals` data frame contains the residuals of the 
-preprocessing for 1000 CpG sites from chromosome 21.
+preprocessing analysis for chromosome 21.
+}
+\details{
+Some CpG sites from chromosome 21 are not included. They may be 
+omitted in the original data set or removed during the preprocessing. 
+Moreover, CpG sites are the same as in the  `meNet::Bacalini_betaValues`
+data set and thus only the intersection of measured CpGs remains.
 }
 \references{
 \insertAllCited{}
