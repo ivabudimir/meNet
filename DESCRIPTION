@@ -9,6 +9,7 @@ Depends: R (>= 3.5.0)
 Imports: Rcpp (>= 1.0.6),
          graphics,
          grDevices,
+         scales,
          igraph,
          multinet,
          plyr,

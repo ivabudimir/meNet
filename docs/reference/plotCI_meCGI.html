@@ -40,7 +40,12 @@
 
 
 <meta property="og:title" content="Beta value error plot for a CpG island — plotCI_meCGI" />
-<meta property="og:description" content="Description" />
+<meta property="og:description" content="Plots methylation beta values for the CpGs within the given CpG
+island in the form of error bars. For every group of samples, the mean 
+methylation value is plotted together with the confidence interval. 
+X-axis position of CpG sites represents their true genomic coordinates. 
+Additional information can be included in the plot such as position of genes
+and exons." />
 
 
 
@@ -127,33 +132,95 @@
     </div>
 
     <div class="ref-description">
-    <p>Description</p>
+    <p>Plots methylation beta values for the CpGs within the given CpG
+island in the form of error bars. For every group of samples, the mean 
+methylation value is plotted together with the confidence interval. 
+X-axis position of CpG sites represents their true genomic coordinates. 
+Additional information can be included in the plot such as position of genes
+and exons.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plotCI_meCGI</span><span class='op'>(</span>
   <span class='va'>beta_values</span>,
   <span class='va'>sample_groups</span>,
   cg_island <span class='op'>=</span> <span class='cn'>NULL</span>,
-  chr <span class='op'>=</span> <span class='cn'>NULL</span>,
-  include_regions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>,
-  left_bp <span class='op'>=</span> <span class='fl'>0</span>,
-  right_bp <span class='op'>=</span> <span class='fl'>0</span>,
-  add_cg <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  add_genes <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  add_exons <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  title <span class='op'>=</span> <span class='st'>""</span>,
-  x_label <span class='op'>=</span> <span class='st'>""</span>,
-  y_label <span class='op'>=</span> <span class='st'>""</span>,
-  plot_legend <span class='op'>=</span> <span class='cn'>FALSE</span>
+  include_regions <span class='op'>=</span> <span class='cn'>NULL</span>,
+  upstream_bp <span class='op'>=</span> <span class='fl'>0</span>,
+  downstream_bp <span class='op'>=</span> <span class='fl'>0</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>beta_values</th>
+      <td><p>Data frame with methylation beta values. CpG sites should
+be listed in the rows with the row names being the Illumina CpG identifiers.
+Samples should be listed in the columns.</p></td>
+    </tr>
+    <tr>
+      <th>sample_groups</th>
+      <td><p>Data frame which defines the sample groups. It has to 
+have two columns, the first column with sample IDs and the second column 
+with the corresponding group.</p></td>
+    </tr>
+    <tr>
+      <th>cg_island</th>
+      <td><p>Name of a CpG island. It should be given as a UCSC CpG island name,
+stating chromosome, the first and the last coordinate (e.g. `"chrX:1-2"`).</p></td>
+    </tr>
+    <tr>
+      <th>include_regions</th>
+      <td><p>Regions of CGIs which should be included in the plot 
+besides the island itself. Can take any subset of values `"S_Shelf"`, `"S_Shore"`, 
+`"N_Shore"`, `"N_Shelf"`. By default, only the CpGs inside the island are reported.</p></td>
+    </tr>
+    <tr>
+      <th>upstream_bp</th>
+      <td><p>Number of additional base pairs added to the plot to the
+left. Default value is `0`.</p></td>
+    </tr>
+    <tr>
+      <th>downstream_bp</th>
+      <td><p>Number of additional base pairs added to the plot to the
+right. Default value is `0`.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional plotting parameters passed to the function 
+`meNet::plotCI_meCpG`.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Vector with names of plotted CpG sites, in the same order as in the
+plot.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Plots error bars and confidence intervals for beta values of CpGs 
-belonging to a given CGI. This function calls the plotCI_meCGs function 
-where the range is given by the CGI start and end coordinates. 
-Additionally, position of genes or exons can be plotted on the x-axis.</p>
+belonging to a given CGI. This function calls the `meNet::plotCI_meCpG` 
+function where the plotted range is given as the start and the end coordinate
+of the given CpG island (from 5' end to 3' end). 
+Additionally, CpG island shores and CpG island shelves may be included in the 
+plot. CpG island shores are genomic regions spanning up to 2 kb upstream/downstream 
+from the CpG island. Similarly, CpG island shelves are genomic regions located 
+from 2 to 4 kb  upstream/downstream from the CpG island (Bibikova et al. 2011)
+.
+If a shelf is included in the plot, also the shore which separates it from 
+the CpG island is included.
+Furthermore, the plot can be expanded upstream or downstream with parameters
+`upstream_bp` and `downstream_bp`.</p>
+<p>More information can be included on the x-axis, such as the exact position
+of the CpG island, position of genes and exons or positions of unmeasured CpG
+sites. For further details, see documentation of the function
+`meNet::plotCI_meCpG`.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Bibikova M, Barnes B, Tsan C, Ho V, Klotzle B, Le JM, Delano D, Zhang L, Schroth GP, Gunderson KL, others (2011).
+&#8220;High density DNA methylation array with single CpG site resolution.&#8221;
+<em>Genomics</em>, <b>98</b>(4), 288--295.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -40,7 +40,13 @@
 
 
 <meta property="og:title" content="Beta value error plot with CpG coordinates — plotCI_meCpG" />
-<meta property="og:description" content="Description" />
+<meta property="og:description" content="Plots methylation beta values in the form of error bars. For
+every group of samples, the mean methylation value is plotted together
+with the confidence interval. Depending on the function parameters, CpG sites 
+represented in the plot can be plotted equidistantly or their position on
+the x-axis can represent their true genomic coordinates. In the latter case,
+additional information can be included in the plot such as position of genes
+and exons." />
 
 
 
@@ -127,7 +133,13 @@
     </div>
 
     <div class="ref-description">
-    <p>Description</p>
+    <p>Plots methylation beta values in the form of error bars. For
+every group of samples, the mean methylation value is plotted together
+with the confidence interval. Depending on the function parameters, CpG sites 
+represented in the plot can be plotted equidistantly or their position on
+the x-axis can represent their true genomic coordinates. In the latter case,
+additional information can be included in the plot such as position of genes
+and exons.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plotCI_meCpG</span><span class='op'>(</span>
@@ -137,14 +149,16 @@
   chr <span class='op'>=</span> <span class='cn'>NULL</span>,
   first_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
   last_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
+  add_lines <span class='op'>=</span> <span class='cn'>TRUE</span>,
   plot_cg <span class='op'>=</span> <span class='cn'>FALSE</span>,
   plot_cgi <span class='op'>=</span> <span class='cn'>FALSE</span>,
   plot_gene <span class='op'>=</span> <span class='cn'>FALSE</span>,
   plot_exon <span class='op'>=</span> <span class='cn'>FALSE</span>,
   transcript_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NM"</span>, <span class='st'>"NR"</span><span class='op'>)</span>,
   col_groups <span class='op'>=</span> <span class='cn'>NULL</span>,
-  col_gene <span class='op'>=</span> <span class='st'>"green"</span>,
-  col_cgi <span class='op'>=</span> <span class='st'>"magenta"</span>,
+  col_cg <span class='op'>=</span> <span class='st'>"grey77"</span>,
+  col_gene <span class='op'>=</span> <span class='st'>"cyan4"</span>,
+  col_cgi <span class='op'>=</span> <span class='st'>"grey77"</span>,
   title <span class='op'>=</span> <span class='st'>""</span>,
   x_label <span class='op'>=</span> <span class='st'>""</span>,
   y_label <span class='op'>=</span> <span class='st'>""</span>,
@@ -152,7 +166,10 @@
   beta_min <span class='op'>=</span> <span class='fl'>0</span>,
   beta_max <span class='op'>=</span> <span class='fl'>1</span>,
   error_size <span class='op'>=</span> <span class='fl'>1</span>,
+  cg_names <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  cg_names_expand <span class='op'>=</span> <span class='cn'>NA</span>,
   plot_legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  legend_cex <span class='op'>=</span> <span class='fl'>1</span>,
   plot_outside <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
@@ -160,17 +177,59 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>beta_values</th>
+      <td><p>Data frame with methylation beta values. CpG sites should
+be listed in the rows with the row names being the Illumina CpG identifiers.
+Samples should be listed in the columns.</p></td>
+    </tr>
+    <tr>
+      <th>sample_groups</th>
+      <td><p>Data frame which defines the sample groups. It has to 
+have two columns, the first column with sample IDs and the second column 
+with the corresponding group.</p></td>
+    </tr>
+    <tr>
+      <th>cg_list</th>
+      <td><p>List of CpG sites whose methylation values should be presented
+in the plot. If provided, CpGs will be plotted equidistantly on the x-axis in
+the given order.</p></td>
+    </tr>
+    <tr>
       <th>chr</th>
-      <td><p>In the format 1:22 or X or Y.</p></td>
+      <td><p>Chromosome on which the plotted CpG sites are found. In the format
+`1`:`22` or `"X"` or `"Y"`.</p></td>
+    </tr>
+    <tr>
+      <th>first_coord</th>
+      <td><p>The first coordinate to be represented in the plot.</p></td>
+    </tr>
+    <tr>
+      <th>last_coord</th>
+      <td><p>The last coordinate to be represented in the plot.</p></td>
+    </tr>
+    <tr>
+      <th>add_lines</th>
+      <td><p>Whether to connect the error bars. If `TRUE`, mean value
+points will be connected with the lines. Default to `TRUE`.</p></td>
+    </tr>
+    <tr>
+      <th>plot_cg</th>
+      <td><p>Whether to plot the position of all CpG sites on x-axis.
+Defaults to `FALSE`.</p></td>
+    </tr>
+    <tr>
+      <th>plot_cgi</th>
+      <td><p>Whether to plot the position of CpG island on x-axis.
+Defaults to `FALSE`.</p></td>
     </tr>
     <tr>
       <th>plot_gene</th>
-      <td><p>Whether to plot positions of genes/transcripts on x-axis.
+      <td><p>Whether to plot the position of genes/transcripts on x-axis.
 Defaults to `FALSE`.</p></td>
     </tr>
     <tr>
       <th>plot_exon</th>
-      <td><p>Whether to plot positions of exons on x-axis. Defaults to
+      <td><p>Whether to plot the position of exons on x-axis. Defaults to
 `FALSE`.</p></td>
     </tr>
     <tr>
@@ -178,6 +237,28 @@ Defaults to `FALSE`.</p></td>
       <td><p>Genes/transcripts to be plotted. `"NM"` stands for
 protein-coding and `"NR"` stands for non-protein coding transcripts.
 By default, both types of transcripts are included.</p></td>
+    </tr>
+    <tr>
+      <th>col_groups</th>
+      <td><p>Color used for the error bars. It can be given as a list
+of colors of the same length as the number of groups. Alternatively, it
+can be given as a data frame with sample groups in the first column and
+the corresponding color in the second column.</p></td>
+    </tr>
+    <tr>
+      <th>col_cg</th>
+      <td><p>Color of the other CpG sites. Used only if `plot_cg` is `TRUE`.
+Default color is `grey77`.</p></td>
+    </tr>
+    <tr>
+      <th>col_gene</th>
+      <td><p>Color of the genes/exons. Used only if `plot_genes` or
+`plot_exons` is `TRUE`. Default color is `"cyan4"`.</p></td>
+    </tr>
+    <tr>
+      <th>col_cgi</th>
+      <td><p>Color of the CpG islands. Used only if `plot_cgi` is `TRUE`.
+Default color is `"grey77"`.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -212,6 +293,29 @@ Defaults to `1`.</p></td>
 below and above the mean. Defaults to `1`.</p></td>
     </tr>
     <tr>
+      <th>cg_names</th>
+      <td><p>Whether to add names of the plotted CpG sites below the
+x-axis. Defaults to `FALSE`.</p></td>
+    </tr>
+    <tr>
+      <th>cg_names_expand</th>
+      <td><p>Expand factor for the `cg_names`. If the labels are 
+cluttered, the expand factor could be set to separate the labels. Expand 
+factor defines the minimum distance between two consecutive labels and is
+expressed as a percentage of the distance between the first and the last
+label. Optimal separation is usually achieved for values close to `1`.
+For the default `NA` value, labels are not expanded.</p></td>
+    </tr>
+    <tr>
+      <th>plot_legend</th>
+      <td><p>Whether to plot the legend. Default to `FALSE`.</p></td>
+    </tr>
+    <tr>
+      <th>legend_cex</th>
+      <td><p>Numeric expansion factor, used for all elements of the
+legend. Defaults to `1`.</p></td>
+    </tr>
+    <tr>
       <th>plot_outside</th>
       <td><p>Whether error plot should be plotted outside of the
 plotting area. Plotting area is determined with `beta_min` and `beta_max`. 
@@ -219,14 +323,49 @@ Defaults to `TRUE`.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Vector with names of plotted CpG sites, in the same order as in the
+plot.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Plots error bars and confidence intervals for beta values of given 
-CpGs. If list of CpGs is given, they are plotted equidistantly. 
+CpGs. If a list of CpGs is given, they are plotted equidistantly. 
 If a range of coordinates and a chromosome are given, then all CpGs inside 
 the range are plotted and positioned on x-axis based on their chromosomal 
-coordinate. If the latter case, positions of unmeasured CpGs inside the 
-region can be added to the plot.</p>
+coordinate (from 5' end to 3' end). 
+If the latter case, additional information can be displayed on
+the x-axis such as positions of unmeasured CpGs, positions of CpG islands
+and/or positions of genes and exons. If we are specifically interested in
+protein-coding or non-protein-coding genes, we can accordingly set the values
+of parameter `transcript_types`. The color for each genomic element can be 
+changed with `col_cg`, `col_cgi` and `col_gene` parameters.</p>
+<p>For error bars, the default plotted confidence interval represents distance of
+one standard deviation from the mean. This can be changed with `error_size` 
+parameter. If we are interested only in certain beta values, we can restrict the
+y-axis with `beta_min` and `beta_max` parameters.
+Error bars are separately plotted for each group of samples and the color of each
+group is set with `col_groups` parameter. Groups of samples are defined in
+`sample_groups`. To better observe the methylation patterns, lines which 
+connect mean methylation values can be added with `add_lines`.</p>
+<p>Plotting area can be customized with `title`, `x_label` and `y_label`. 
+Below the x-axis, names of CpG sites can be displayed setting `cg_names` to
+`TRUE`. In cg names are cluttered, we can expand them setting `cg_names_expand`
+factor to an appropriate numerical value. Usually this value is a number close
+to `1`. An increase of the expand factor will result in more separate labels.
+For the optimal separation, the best strategy is to try several different
+values until the right value is found. The size of all displayed text is 
+regulated simultaneously with `text_cex` parameter.</p>
+<p>The legend can be added to the plot with `plot_legend` parameter. There are 
+two parts of the legend. Color legend for sample groups and the legend which
+explains the meaning of plotted genomic elements. The size of the whole legend
+is regulated with `legend_cex` parameter.</p>
+<p>In some cases, error bars have values outside the `beta_min`-`beta_max` range.
+If `plot_outside` is `FALSE`, these values will be trimmed. Otherwise, they will
+be plotted. If `beta_min` is `0` and `beta_max` is `1`, there still may be values
+outside of the range. This happens for methylation values which are very close 
+to `0` or `1` since the confidence interval is wider than the real methylation
+values. In this case, it is recommended for `plot_outside` to be set to `TRUE`.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -74,11 +74,47 @@
 #' plot.
 #'
 #' @details Plots error bars and confidence intervals for beta values of given 
-#' CpGs. If list of CpGs is given, they are plotted equidistantly. 
+#' CpGs. If a list of CpGs is given, they are plotted equidistantly. 
 #' If a range of coordinates and a chromosome are given, then all CpGs inside 
 #' the range are plotted and positioned on x-axis based on their chromosomal 
-#' coordinate. If the latter case, positions of unmeasured CpGs inside the 
-#' region can be added to the plot. 
+#' coordinate (from 5' end to 3' end). 
+#' If the latter case, additional information can be displayed on
+#' the x-axis such as positions of unmeasured CpGs, positions of CpG islands
+#' and/or positions of genes and exons. If we are specifically interested in
+#' protein-coding or non-protein-coding genes, we can accordingly set the values
+#' of parameter `transcript_types`. The color for each genomic element can be 
+#' changed with `col_cg`, `col_cgi` and `col_gene` parameters.
+#' 
+#' For error bars, the default plotted confidence interval represents distance of
+#' one standard deviation from the mean. This can be changed with `error_size` 
+#' parameter. If we are interested only in certain beta values, we can restrict the
+#' y-axis with `beta_min` and `beta_max` parameters.
+#' Error bars are separately plotted for each group of samples and the color of each
+#' group is set with `col_groups` parameter. Groups of samples are defined in
+#' `sample_groups`. To better observe the methylation patterns, lines which 
+#' connect mean methylation values can be added with `add_lines`.
+#' 
+#' Plotting area can be customized with `title`, `x_label` and `y_label`. 
+#' Below the x-axis, names of CpG sites can be displayed setting `cg_names` to
+#' `TRUE`. In cg names are cluttered, we can expand them setting `cg_names_expand`
+#' factor to an appropriate numerical value. Usually this value is a number close
+#' to `1`. An increase of the expand factor will result in more separate labels.
+#' For the optimal separation, the best strategy is to try several different
+#' values until the right value is found. The size of all displayed text is 
+#' regulated simultaneously with `text_cex` parameter.
+#' 
+#' The legend can be added to the plot with `plot_legend` parameter. There are 
+#' two parts of the legend. Color legend for sample groups and the legend which
+#' explains the meaning of plotted genomic elements. The size of the whole legend
+#' is regulated with `legend_cex` parameter.
+#' 
+#' In some cases, error bars have values outside the `beta_min`-`beta_max` range.
+#' If `plot_outside` is `FALSE`, these values will be trimmed. Otherwise, they will
+#' be plotted. If `beta_min` is `0` and `beta_max` is `1`, there still may be values
+#' outside of the range. This happens for methylation values which are very close 
+#' to `0` or `1` since the confidence interval is wider than the real methylation
+#' values. In this case, it is recommended for `plot_outside` to be set to `TRUE`.
+#' 
 #' 
 #' @import graphics
 #' 
@@ -99,6 +135,8 @@ plotCI_meCpG <- function(beta_values, sample_groups,
   
   cg_in_plot <- c() # just to hold a space
   
+  # check validity of given parameters
+  ####################################
   # check if CpGs are provided
   if(is.null(cg_list) & (is.null(chr)|is.null(first_coord)|is.null(last_coord))){
     stop('CpGs not specified.')
@@ -262,7 +300,9 @@ plotCI_meCpG <- function(beta_values, sample_groups,
     col_df$color <- viridisLite::viridis(nrow(col_df), alpha = 0.8, begin = 0.1, end = 0.9, direction = -1, option = "C")
   }
   
+  
   # prepare for plotting
+  ######################
   if(!is.null(cg_list)){
     
     if(!is.null(chr)|!is.null(first_coord)|!is.null(last_coord)){
@@ -428,16 +468,25 @@ plotCI_meCpG <- function(beta_values, sample_groups,
   
   # if legend is plotted, check if there are some long names
   if(plot_legend){
-    # upper case letters and numbers have approx. value of 3 while lowercase letters have approx. value of 2
-    group_name_maxSize <- max(sapply(all_groups, function(x) stringr::str_count(x, "[a-z]")*2+(nchar(x)-stringr::str_count(x, "[a-z]"))*3))
-    # approx. maxSize has to be <=27 (experimentally found)
-    maxSize <- 27
-    if(group_name_maxSize>maxSize){
-      # space for text within the legend
-      legend_text_percentage <- (plotting_parameters[["legend_space"]]-legend_parameters[["left_space"]]-legend_parameters[["line_width"]]-legend_parameters[["line_text_space"]])/plotting_parameters[["legend_space"]]
-      # additional name size of maxSize should doule the text length: legend_text_percentage=maxSize/?
-      plotting_parameters[["legend_space"]] <- (1+(group_name_maxSize-maxSize)/(maxSize/legend_text_percentage))*plotting_parameters[["legend_space"]]
+    groupName_maxWidth <- max(sapply(all_groups, function(x) strwidth(x, units="inches")))
+    legendString_optimalWidth <- strwidth("Gene w/ exons", units="inches")
+    # find maximal string width within the legend
+    legendString_maxWidth <- 0
+    if(plot_gene&plot_exon){
+      legendString_maxWidth <- strwidth("Gene w/ exons", units="inches")
+    }else if(plot_cgi){
+      legendString_maxWidth <- strwidth("CpG island", units="inches")
+    }else if(plot_cg){
+      legendString_maxWidth <- strwidth("CpG sites", units="inches")
+    }else if(plot_gene|plot_exon){
+      legendString_maxWidth <- strwidth("Gene", units="inches")
     }
+    legendString_maxWidth <- max(legendString_maxWidth, groupName_maxWidth)
+    
+    # space for text within the legend
+    legend_text_percentage <- (plotting_parameters[["legend_space"]]-legend_parameters[["left_space"]]-legend_parameters[["line_width"]]-legend_parameters[["line_text_space"]])/plotting_parameters[["legend_space"]]
+    # additional name size of maxSize should doule the text length: legend_text_percentage=maxSize/?
+    plotting_parameters[["legend_space"]] <- (1+legend_text_percentage*(legendString_maxWidth/legendString_optimalWidth-1))*plotting_parameters[["legend_space"]]
   }
   
   # text size: these numbers are multiplied by text_cex as parameters of graphics::text()
@@ -627,13 +676,15 @@ plotCI_meCpG <- function(beta_values, sample_groups,
       # we take actual positions of all CpGs of the same length as line width in legend
       cg_to_use <- (cg_all_coords>first_coord)&(cg_all_coords<=first_coord+legend_parameters[["line_width"]]*dx)
       cg_legend_positions <- cg_all_coords[cg_to_use]-first_coord
-      # if the begging of x-axis has no CpG sites, we find other range
+      # we want the first interval which has more than the average number of CpGs (this interval must exist)
+      number_of_intervals <- ceiling((x_max-x_min)/(legend_parameters[["line_width"]]*dx))
+      average_number_of_cg <- length(cg_all_coords)/number_of_intervals
       segment_index <- 1
-      while(length(cg_legend_positions)==0){
-        cg_to_use <- (cg_all_coords>first_coord+segment_index*legend_parameters[["line_width"]])&(cg_all_coords<=first_coord+(segment_index+1)*legend_parameters[["line_width"]]*dx)
-        cg_legend_positions <- cg_all_coords[cg_to_use]-(first_coord+segment_index*legend_parameters[["line_width"]])
+      while(length(cg_legend_positions)<average_number_of_cg){
+        cg_to_use <- (cg_all_coords>first_coord+segment_index*legend_parameters[["line_width"]]*dx)&(cg_all_coords<=first_coord+(segment_index+1)*legend_parameters[["line_width"]]*dx)
+        cg_legend_positions <- cg_all_coords[cg_to_use]-(first_coord+segment_index*legend_parameters[["line_width"]]*dx)
         segment_index <- segment_index + 1
-        # at some point cg_legend_positions won't be empty since otherwise plot_cg would be set to FALSE
+        # at some point an interval has to have at least mean number of CpGs within it
       }
       segments(x0=legend_x0+cg_legend_positions,
                y0=current_position_y+0.5*legend_parameters[["cg_height"]]*dy,
