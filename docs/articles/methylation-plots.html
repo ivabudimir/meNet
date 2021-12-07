@@ -57,10 +57,10 @@
       <a href="../articles/methylation-multiplex.html">Methylation multiplex</a>
     </li>
     <li>
-      <a href="../articles/methylation-plots.html">Methylation error plots</a>
+      <a href="../articles/resampling-methods.html">Resampling methods for correlation</a>
     </li>
     <li>
-      <a href="../articles/resampling-methods.html">Resampling methods for correlation</a>
+      <a href="../articles/methylation-plots.html">Methylation error plots</a>
     </li>
   </ul>
 </li>
@@ -88,13 +88,42 @@
 
     
     
+<p>Methylation error plots are useful tool for visual exploration of the methylation status. The mean methylation value together with the confidence interval is plotted on y-axis for CpG sites of interest. It facilitates the comparison of methylation status among different groups of samples. <code>meNet</code>package offers two functions for methylation error plots: <code>plotCI_meCpG</code> and <code>plotCI_meCGI</code>. The former function can be used for any set of CpG sites while the latter function is used to check the methylation status of a CpG island.</p>
+<p>We use data sets included within the package to demonstrate the usage of mentioned functions. Bacalini et al. <span class="citation">(Bacalini et al. 2015)</span></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">meNet</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"Bacalini_betaValues"</span>, package<span class="op">=</span><span class="st">"meNet"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"Bacalini_sampleSheet"</span>, package<span class="op">=</span><span class="st">"meNet"</span><span class="op">)</span></code></pre></div>
+<div id="error" class="section level2">
+<h2 class="hasAnchor">
+<a href="#error" class="anchor"></a>Error</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">some_cgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">Bacalini_betaValues</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>
+<span class="fu"><a href="../reference/plotCI_meCpG.html">plotCI_meCpG</a></span><span class="op">(</span>beta_values<span class="op">=</span><span class="va">Bacalini_betaValues</span>, sample_groups<span class="op">=</span><span class="va">Bacalini_sampleSheet</span>, 
+                  chr<span class="op">=</span><span class="fl">21</span>, first_coord<span class="op">=</span><span class="fl">44494624</span>, last_coord<span class="op">=</span><span class="fl">44496989</span>,
+                  title<span class="op">=</span><span class="st">"Title"</span>, x_label<span class="op">=</span><span class="st">""</span>, y_label<span class="op">=</span><span class="st">"Methylation level"</span>, cg_names<span class="op">=</span><span class="cn">TRUE</span>,
+                  plot_cgi<span class="op">=</span><span class="cn">TRUE</span>, plot_cg<span class="op">=</span><span class="cn">TRUE</span>, plot_gene<span class="op">=</span><span class="cn">TRUE</span>, plot_exon<span class="op">=</span><span class="cn">TRUE</span>,
+                  plot_legend<span class="op">=</span><span class="cn">TRUE</span>, legend_cex<span class="op">=</span><span class="fl">1.2</span>, text_cex<span class="op">=</span><span class="fl">1</span>, cg_names_expand<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span>
+<span class="co">#&gt; Warning in plotCI_meCpG(beta_values = Bacalini_betaValues, sample_groups =</span>
+<span class="co">#&gt; Bacalini_sampleSheet, : Plotting outside of bounds.</span></code></pre></div>
+<p><img src="methylation-plots_files/figure-html/unnamed-chunk-3-1.png" width="1050"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"./plots/trial.png"</span><span class="op">)</span></code></pre></div>
+<p><img src="plots/trial.png" width="480"></p>
+<div id="refs" class="references">
+<div id="ref-bacalini2015identification">
+<p>Bacalini, Maria Giulia, Davide Gentilini, Alessio Boattini, Enrico Giampieri, Chiara Pirazzini, Cristina Giuliani, Elisa Fontanesi, et al. 2015. “Identification of a Dna Methylation Signature in Blood Cells from Persons with down Syndrome.” <em>Aging (Albany NY)</em> 7 (2): 82.</p>
+</div>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
