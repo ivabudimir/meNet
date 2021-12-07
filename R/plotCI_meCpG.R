@@ -21,6 +21,9 @@
 #' `1`:`22` or `"X"` or `"Y"`.
 #' @param first_coord The first coordinate to be represented in the plot.
 #' @param last_coord The last coordinate to be represented in the plot.
+#' @param return_cg_names Whether the names of plotted CpG sites should be
+#' returned, in the order of plotting. Defaults to `FALSE` in which case
+#' function doesn't return any value.
 #' @param add_lines Whether to connect the error bars. If `TRUE`, mean value
 #' points will be connected with the lines. Default to `TRUE`.
 #' @param plot_cg Whether to plot the position of all CpG sites on x-axis.
@@ -121,6 +124,7 @@
 #' @export
 plotCI_meCpG <- function(beta_values, sample_groups,
                          cg_list=NULL, chr=NULL, first_coord=NULL, last_coord=NULL,
+                         return_cg_names=FALSE,
                          add_lines=TRUE, plot_cg=FALSE, plot_cgi=FALSE,
                          plot_gene=FALSE, plot_exon=FALSE, transcript_types=c("NM", "NR"),
                          col_groups=NULL, col_cg="grey77", col_gene="cyan4", col_cgi="grey77",
@@ -751,5 +755,7 @@ plotCI_meCpG <- function(beta_values, sample_groups,
   }
   
   # return names of plotted CpGs in the order of plotting
-  return(cg_in_plot)
+  if(return_cg_names){
+    return(cg_in_plot)
+  }
 }
